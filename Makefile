@@ -3,8 +3,9 @@ NAME = minishell
 
 # Compilatore e flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/local/opt/readline/include
-LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
+CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/local/opt/readline/include -I$(LIBFTDIR)/include
+LDFLAGS = -L/usr/local/opt/readline/lib -lreadline -L$(LIBFTDIR) -lft
+LIBFTDIR = ./libft
 
 # File sorgenti e oggetti
 SRCS = main.c \
@@ -15,8 +16,12 @@ OBJS = $(SRCS:src/%.c=obj/%.o)
 all: $(NAME)
 
 # Regola per creare l'eseguibile
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFTDIR)/libft.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
+
+# Regola per compilare libft
+$(LIBFTDIR)/libft.a:
+	make -C $(LIBFTDIR)
 
 # Regola per creare i file oggetto
 obj/%.o: src/%.c | obj
@@ -30,10 +35,12 @@ obj:
 # Pulizia dei file oggetto
 clean:
 	rm -rf obj
+	make -C $(LIBFTDIR) clean
 
-# Pulizia completa (incluso l'eseguibile)
+# Pulizia completa (incluso l'eseguibile e la libft)
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFTDIR) fclean
 
 # Ricompilazione completa
 re: fclean all
