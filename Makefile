@@ -9,8 +9,9 @@ LIBFTDIR = ./libft
 
 # File sorgenti e oggetti
 SRCS = main.c \
-       Read/read.c
-OBJS = $(SRCS:src/%.c=obj/%.o)
+       $(wildcard ./read/*.c) \
+       $(wildcard ./token/*.c)
+OBJS = $(SRCS:%.c=obj/%.o)
 
 # Regola principale
 all: $(NAME)
@@ -24,7 +25,7 @@ $(LIBFTDIR)/libft.a:
 	make -C $(LIBFTDIR)
 
 # Regola per creare i file oggetto
-obj/%.o: src/%.c | obj
+obj/%.o: %.c | obj
 	mkdir -p $(dir $@) # Crea la directory per i file oggetto
 	$(CC) $(CFLAGS) -c $< -o $@
 
