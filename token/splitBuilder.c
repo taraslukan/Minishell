@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitBuilder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: federico2 <federico2@student.42.fr>        +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 13:16:56 by federico2         #+#    #+#             */
-/*   Updated: 2025/01/13 14:07:09 by federico2        ###   ########.fr       */
+/*   Created: 2025/01/13 14:56:01 by fluzi             #+#    #+#             */
+/*   Updated: 2025/01/14 12:20:27 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static const char	*skip_token(const char *str, char c, bool *in_quotes, char *qu
 	{
 		if ((*str == 39 || *str == 34) && !*in_quotes)
 		{
-			printf("%s", str);
 			*in_quotes = true;
 			*quote_char = *str;
 		}
@@ -35,10 +34,13 @@ static const char	*skip_token(const char *str, char c, bool *in_quotes, char *qu
 // Funzione per contare le parole nella stringa
 static size_t	count_words(const char *str, char c)
 {
-	size_t	count = 0;
-	bool	in_quotes = false;
-	char	quote_char = '\0';
+	size_t	count;
+	bool	in_quotes;
+	char	quote_char;
 
+	count = 0;
+	in_quotes = false;
+	quote_char = '\0';
 	while (*str)
 	{
 		if (*str != c)
@@ -55,13 +57,31 @@ static size_t	count_words(const char *str, char c)
 // Funzione per allocare un token
 static char	*allocate_token(const char *start, size_t length)
 {
-	char	*token = malloc(sizeof(char) * (length + 1));
-	if (!token)
-		return (NULL);
-	for (size_t i = 0; i < length; i++)
-		token[i] = start[i];
-	token[length] = '\0';
-	return (token);
+	char	*token;
+	size_t	j;
+	size_t	i;
+	bool	in_quotes;
+	char	quote_char;
+
+	j = 0;
+	i = 0;
+	in_quotes = false;
+	quote_char = '\0';
+	token = malloc(sizeof(char) * (length + 1));
+	while (i < length)
+	{
+		if ((start[i] == '\'' || start[i] == '\"') && !in_quotes)
+		{
+			in_quotes = true;
+			quote_char = start[i];
+		}
+		else if (start[i] == quote_char && in_quotes)
+			in_quotes = false;
+		else
+			token[j++] = start[i];
+		i++;
+	}
+	return (token[j] = '\0', token);
 }
 
 // Funzione per creare i token

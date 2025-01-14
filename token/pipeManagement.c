@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   pipeManagement.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 17:08:42 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/14 12:52:18 by fluzi            ###   ########.fr       */
+/*   Created: 2025/01/13 15:06:29 by fluzi             #+#    #+#             */
+/*   Updated: 2025/01/13 17:23:28 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-#define TOKEN_H
+#include "token.h"
 
-// Standard libraries
+size_t count_pipe(char **matrix)
+{
+	size_t i;
+	
+	i = 0;
+	while (matrix[i])
+		i++;
+	return(i);
+}
+char **pipe_splitter(char *str)
+{
+	char **matrix;
 
-// Project-specific headers
-#include "../minishell.h"
-
-char		**token_master(char const *str, char c);
-int			test(void);
-
-size_t		count_pipe(char **matrix);
-char		**pipe_splitter(char *str);
-
-void 		print_functions(t_coreStruct *core);
-
-#endif /* MINISHELL_H */
+	matrix = ft_split(str, 124);
+	return (matrix);
+}
