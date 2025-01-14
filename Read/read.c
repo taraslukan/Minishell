@@ -20,10 +20,16 @@ void start_read(void)
     char *input;
     char cwd[PATH_MAX];
     char *home;
+    char *heredocinput;
 
     home = getenv("HOME");
     chdir(home);
     getcwd(cwd, sizeof(cwd));
-    input = rdLine(build_std_prompt(cwd));
+    while (1)
+    {
+        input = rdLine(build_std_prompt(cwd));
+        heredocinput = tl_check_heredoc(input);
+    }
+    printf("\n %s \n", heredocinput);
     printf("%s", input);
 }

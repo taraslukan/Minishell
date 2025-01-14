@@ -2,6 +2,8 @@
 
 int main(void)
 {
-    test();
+    
+    start_read();
+    //test();
     return (0);
 }

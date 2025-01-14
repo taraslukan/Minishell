@@ -10,6 +10,7 @@
 #include <stdio.h>    
 #include <unistd.h>   
 #include <limits.h>   
+#include <string.h>
 #include <stdlib.h>   
 #include <stdbool.h>  
 
