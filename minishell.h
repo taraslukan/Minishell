@@ -15,9 +15,11 @@
 #include <stdbool.h>  
 
 // Project-specific headers
-#include "read/read.h"
-#include "token/token.h"      
 #include "libft/libft.h"
+#include "utils/utils.h"
 #include "structMinishell.h"
+#include "read/read.h"
+#include "exv/exv.h"
+#include "token/token.h"      
 
 #endif /* MINISHELL_H */

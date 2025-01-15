@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   builtInFunction.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 17:08:42 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 15:56:00 by fluzi            ###   ########.fr       */
+/*   Created: 2025/01/15 20:54:08 by fluzi             #+#    #+#             */
+/*   Updated: 2025/01/15 21:00:58 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-#define TOKEN_H
+#ifndef BUILT_IN_FUNCTION_H
+#define BUILT_IN_FUNCTION_H
 
-// Standard libraries
-
-// Project-specific headers
 #include "../minishell.h"
 #include "../structMinishell.h"
 
+void    print_env(char **env);
+void    builtin_export(char ***env, const char *key, const char *value);
+void    builtin_unset(char ***env, const char *key);
 
-char		**token_master(char const *str, char c);
-int			test(char *input);
-
-size_t		count_pipe(char **matrix);
-char		**pipe_splitter(char *str);
-
-void 		print_functions(t_coreStruct *core);
-
-#endif /* MINISHELL_H */
+#endif /* BUILT_IN_FUNCTION_H */

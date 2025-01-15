@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukan <lukan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:08:28 by lukan             #+#    #+#             */
-/*   Updated: 2025/01/14 14:59:19 by lukan            ###   ########.fr       */
+/*   Updated: 2025/01/15 17:09:35 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,6 @@ char	*tl_check_heredoc(char *input)
 		}
 		i++;
 	}
-	printf("\n%s \n", heredocinput);
+	//printf("\n%s \n", heredocinput);
 	return (heredocinput); // Restituisce la stringa NON splittata per \n
 }

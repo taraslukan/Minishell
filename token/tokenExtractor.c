@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/14 14:58:34 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/15 17:08:52 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out)
 	while (matrix[i] && strcmp(matrix[i], ">") && strcmp(matrix[i], "<") && strcmp(matrix[i], ">>"))
 		arg_count++, i++;
 	ret.args = malloc(sizeof(char *) * (arg_count + 1));
-	i = 0;
+	ret.args[0] = ret.exe;
 	while (j <= arg_count)
 	{
-		ret.args[i] = matrix[j];
+		ret.args[j] = matrix[j];
 		j++;
-		i++;
 	}
 	ret.args[arg_count + 1] = NULL;
 	handle_file_redirections(&ret, matrix, i, pipe_in, pipe_out);
@@ -100,7 +99,7 @@ char ***build_pipeline_tokens(char **matrix_split, size_t num_pipes)
 	return pipeline_tokens;
 }
 
-void tokenize(char *input)
+t_coreStruct tokenize(char *input)
 {
 	t_coreStruct principale;
 	size_t i;
@@ -111,18 +110,21 @@ void tokenize(char *input)
 	principale.pipeSplit = matrix_split;
 	char ***utils_matrix = build_pipeline_tokens(matrix_split, principale.pipe.number);
 	principale.functions = parse_pipeline(utils_matrix, principale.pipe.number);
-	print_functions(&principale);
+	//print_functions(&principale);
 	while (i < principale.pipe.number)
 	{
 		free(utils_matrix[i]);
 		i++;
 	}
+	
 	free(utils_matrix);
+	return(principale);
 }
 
-int test(void)
+int test(char *input)
 {
-	char *input = "ls -l 'file with spaces' | grep \"pattern\" > output.txt";
-	tokenize(input);
+	// char *input = "ls -l 'file with spaces' | grep \"pattern\" > output.txt";
+	t_coreStruct principale = tokenize(input); 
+	std_exv(&principale.functions[0]);
 	return 0;
 }

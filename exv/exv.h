@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   exv.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 17:08:42 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 15:56:00 by fluzi            ###   ########.fr       */
+/*   Created: 2025/01/15 16:15:45 by fluzi             #+#    #+#             */
+/*   Updated: 2025/01/15 17:07:22 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-#define TOKEN_H
+#ifndef EXV_H
+#define EXV_H
 
 // Standard libraries
 
@@ -19,13 +19,11 @@
 #include "../minishell.h"
 #include "../structMinishell.h"
 
+void	case_finder(t_coreStruct *core);
+void	std_exv(t_comand *comand);
 
-char		**token_master(char const *str, char c);
-int			test(char *input);
+// exv_builtin_finder
+bool    is_builtin(const char *cmd);
+//void    execute_builtin(const t_comand *cmd);
 
-size_t		count_pipe(char **matrix);
-char		**pipe_splitter(char *str);
-
-void 		print_functions(t_coreStruct *core);
-
-#endif /* MINISHELL_H */
+#endif /* EXC_H */
