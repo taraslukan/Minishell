@@ -15,6 +15,7 @@
 #include <stdbool.h> 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h> 
 
 // Project-specific headers
 #include "libft/libft.h"
@@ -26,5 +27,7 @@
 #include "exv/exv.h"
 #include "token/token.h"
 #include "builtIn/builtIn.h"
+
+extern pid_t pid;
 
 #endif /* MINISHELL_H */
