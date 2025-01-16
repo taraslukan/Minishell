@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:39:04 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 19:24:10 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 13:55:49 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ char	**copy_env(void)
 	i = 0;
 	while (environ[line])
 		line++;
-	new_env = (char**) malloc((line +1) * sizeof(char *));
+	printf("%zu", line);
+	new_env = malloc((line +1) * sizeof(char *));
 	if(!new_env)
-		return(perror("malloc env"), exit(EXIT_FAILURE), NULL);
+		return(perror("malloc env"), NULL);
 	while (i < line)
-	   new_env[i] = ft_strdup(environ[i++]);
+	{
+	   new_env[i] = ft_strdup(environ[i]);
+	   i++;
+	}
 	new_env[line] = NULL;
 	return (new_env);
 }
@@ -54,7 +58,7 @@ static int	new_env_value(char ***env, const char *key, const char *value, size_t
 	new_env = ft_rlc(*env, len, ((len + 2) * sizeof(char *)));
 	if(!new_env)
 		return(perror("malloc set val"), -1);
-	*env = new_env;
+	*env = &new_env;
 	(*env)[len] = malloc(strlen(key) + strlen(value) + 2);
 	if(!(*env)[len])
 		return(perror("malloc set val"), -1);

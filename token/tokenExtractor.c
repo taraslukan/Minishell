@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 17:08:52 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 14:10:02 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void handle_file_redirections(t_comand *ret, char **matrix, int i, bool p
 	}
 }
 // Funzione principale modificata
-t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out)
+t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out, t_coreStruct *core)
 {
 	t_comand ret;
 	int i;
@@ -59,12 +59,13 @@ t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out)
 		j++;
 	}
 	ret.args[arg_count + 1] = NULL;
+	ret.core = core;
 	handle_file_redirections(&ret, matrix, i, pipe_in, pipe_out);
 	return ret;
 }
 
 
-t_comand *parse_pipeline(char ***pipeline_tokens, size_t num_pipes)
+t_comand *parse_pipeline(char ***pipeline_tokens, size_t num_pipes, t_coreStruct *core)
 {
 	t_comand *commands;
 	size_t i;
@@ -77,7 +78,8 @@ t_comand *parse_pipeline(char ***pipeline_tokens, size_t num_pipes)
 	{
 		bool pipe_in = (i > 0);
 		bool pipe_out = (i < num_pipes - 1);
-		commands[i] = comand_write(pipeline_tokens[i], pipe_in, pipe_out);
+		
+		commands[i] = comand_write(pipeline_tokens[i], pipe_in, pipe_out, core);
 		i++;
 	}
 	return commands;
@@ -99,32 +101,21 @@ char ***build_pipeline_tokens(char **matrix_split, size_t num_pipes)
 	return pipeline_tokens;
 }
 
-t_coreStruct tokenize(char *input)
+void tokenize(t_coreStruct *core)
 {
-	t_coreStruct principale;
 	size_t i;
 
 	i = 0;
-	char **matrix_split = pipe_splitter(input);
-	principale.pipe.number = count_pipe(matrix_split);
-	principale.pipeSplit = matrix_split;
-	char ***utils_matrix = build_pipeline_tokens(matrix_split, principale.pipe.number);
-	principale.functions = parse_pipeline(utils_matrix, principale.pipe.number);
+	char **matrix_split = pipe_splitter(core->imput);
+	core->pipe.number = count_pipe(matrix_split);
+	core->pipeSplit = matrix_split;
+	char ***utils_matrix = build_pipeline_tokens(matrix_split, core->pipe.number);
+	core->functions = parse_pipeline(utils_matrix, core->pipe.number, core);
 	//print_functions(&principale);
-	while (i < principale.pipe.number)
+	while (i < core->pipe.number)
 	{
 		free(utils_matrix[i]);
 		i++;
 	}
-	
 	free(utils_matrix);
-	return(principale);
-}
-
-int test(char *input)
-{
-	// char *input = "ls -l 'file with spaces' | grep \"pattern\" > output.txt";
-	t_coreStruct principale = tokenize(input); 
-	std_exv(&principale.functions[0]);
-	return 0;
 }

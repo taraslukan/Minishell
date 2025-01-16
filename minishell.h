@@ -19,7 +19,9 @@
 #include "utils/utils.h"
 #include "structMinishell.h"
 #include "read/read.h"
+#include "env/env.h"
 #include "exv/exv.h"
-#include "token/token.h"      
+#include "token/token.h" 
+#include "builtIn/builtIn.h"      
 
 #endif /* MINISHELL_H */

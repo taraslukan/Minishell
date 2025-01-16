@@ -7,7 +7,7 @@
 #include <readline/readline.h>
 
 
-void	start_read(void);
+char    *start_read(void);
 char	*tl_check_heredoc(char *input);
 char	*save_delimiter(int i, char *input);
 

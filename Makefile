@@ -9,9 +9,12 @@ LIBFTDIR = ./libft
 
 # File sorgenti e oggetti
 SRCS = main.c \
-	   $(wildcard ./exv/*.c) \
-       $(wildcard ./read/*.c) \
-       $(wildcard ./token/*.c)
+		$(wildcard ./builtIn/*.c) \
+		$(wildcard ./utils/*.c) \
+		$(wildcard ./env/*.c) \
+		$(wildcard ./exv/*.c) \
+    	$(wildcard ./read/*.c) \
+    	$(wildcard ./token/*.c)
 OBJS = $(SRCS:%.c=obj/%.o)
 
 # Regola principale

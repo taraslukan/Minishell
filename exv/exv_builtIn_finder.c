@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 17:06:42 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 14:22:05 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,24 @@ static char **built_in_finder()
     return (builtins);
 }
 
-// void execute_builtin(const t_comand *cmd)
-// {
-//     if (strcmp(cmd->exe, "echo") == 0) {
-//         // Implementazione di echo
-//     } else if (strcmp(cmd->exe, "cd") == 0) {
-//         // Implementazione di cd
-//     } else if (strcmp(cmd->exe, "pwd") == 0) {
-//         // Implementazione di pwd
-//     } else if (strcmp(cmd->exe, "export") == 0) {
-//         // Implementazione di export
-//     } else if (strcmp(cmd->exe, "unset") == 0) {
-//         // Implementazione di unset
-//     } else if (strcmp(cmd->exe, "env") == 0) {
-//         // Implementazione di env
-//     } else if (strcmp(cmd->exe, "exit") == 0) {
-//         // Implementazione di exit
-//     }
-// }
+void execute_builtin(const t_comand *cmd)
+{
+    if (strcmp(cmd->exe, "echo") == 0) {
+        printf("echo");
+    } else if (strcmp(cmd->exe, "cd") == 0) {
+        printf("cd");
+    } else if (strcmp(cmd->exe, "pwd") == 0) {
+        printf("pwd");
+    } else if (strcmp(cmd->exe, "export") == 0) {
+        printf("export");
+    } else if (strcmp(cmd->exe, "unset") == 0) {
+        printf("unset");
+    } else if (strcmp(cmd->exe, "env") == 0) {
+        print_env(cmd->core->env);
+    } else if (strcmp(cmd->exe, "exit") == 0) {
+        printf("exit");
+    }
+}
 bool is_builtin(const char *cmd)
 {
     int i;

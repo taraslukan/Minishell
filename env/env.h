@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:39:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 17:58:36 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 13:54:30 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 
 char    **copy_env(void);
 char    *get_env_value(char **env, const char *key);
+int	    set_env_value(char ***env, const char *key, const char *value);
+int     unset_env_value(char ***env, const char *key);
 
 #endif /* EXC_H */

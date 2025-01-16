@@ -6,11 +6,11 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:51:55 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 21:00:10 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 13:56:33 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtInFunction.h"
+#include "builtIn.h"
 
 void print_env(char **env)
 {
@@ -18,7 +18,7 @@ void print_env(char **env)
 
     i = 0;
     while (env[i])
-        printf("%s\n", env[i]);
+        printf("%s\n", env[i++]);
 }
 
 void builtin_export(char ***env, const char *key, const char *value)

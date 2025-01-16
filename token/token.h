@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:08:42 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 15:56:00 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 12:54:38 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "../minishell.h"
 #include "../structMinishell.h"
 
-
+void        tokenize(t_coreStruct *core);
 char		**token_master(char const *str, char c);
 int			test(char *input);
 

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:15:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 17:07:22 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 14:09:04 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	std_exv(t_comand *comand);
 
 // exv_builtin_finder
 bool    is_builtin(const char *cmd);
+void    execute_builtin(const t_comand *cmd);
 //void    execute_builtin(const t_comand *cmd);
 
 #endif /* EXC_H */

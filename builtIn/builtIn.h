@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtInFunction.h                                  :+:      :+:    :+:   */
+/*   builtIn.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:54:08 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 21:00:58 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/15 21:06:17 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_FUNCTION_H
-#define BUILT_IN_FUNCTION_H
+#ifndef BUILT_IN_H
+#define BUILT_IN_H
 
 #include "../minishell.h"
 #include "../structMinishell.h"
