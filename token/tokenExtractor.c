@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 14:10:02 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 15:18:39 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out, t_coreStruct *
 		ret.args[j] = matrix[j];
 		j++;
 	}
+	ret.argc = arg_count;
 	ret.args[arg_count + 1] = NULL;
 	ret.core = core;
 	handle_file_redirections(&ret, matrix, i, pipe_in, pipe_out);

@@ -9,6 +9,7 @@ LIBFTDIR = ./libft
 
 # File sorgenti e oggetti
 SRCS = main.c \
+		$(wildcard ./signal/*.c) \
 		$(wildcard ./builtIn/*.c) \
 		$(wildcard ./utils/*.c) \
 		$(wildcard ./env/*.c) \

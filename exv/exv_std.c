@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 14:34:13 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/16 15:02:04 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,50 +45,32 @@ extern char **environ;
 //     }
 // }
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdio.h>
-
-void std_exv(t_comand *comand) {
+void std_exv(t_comand *comand)
+{
     pid_t pid;
 
-    // Crea un processo figlio
     pid = fork();
-
     if (pid == -1) {
         perror("Errore durante la fork");
         return;
     }
 
     if (pid == 0) {
-        // Codice del processo figlio
         if (is_builtin(comand->exe)) {
             execute_builtin(comand);
-            _exit(0); // Termina il processo figlio dopo il builtin
+            _exit(0); 
         }
-
         if (access(comand->exe, X_OK) != 0) {
             fprintf(stderr, "Errore: accesso negato o file inesistente\n");
-            _exit(127); // Restituisci uno stato di errore al padre
+            _exit(127); 
         }
-
-        // Esegui il comando nel figlio
         if (execve(comand->exe, comand->args, comand->core->env) == -1) {
             perror("Errore in execve");
-            _exit(126); // Restituisci uno stato di errore al padre
+            _exit(126);
         }
     } else {
-        // Codice del processo padre
         int status;
-
-        // Aspetta che il figlio termini
         waitpid(pid, &status, 0);
-
-        // Stampa lo stato di uscita del figlio (opzionale, per debug)
-        if (WIFEXITED(status)) {
-            printf("Il comando è terminato con codice: %d\n", WEXITSTATUS(status));
-        }
     }
 }
 

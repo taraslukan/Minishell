@@ -12,16 +12,19 @@
 #include <limits.h>   
 #include <string.h>
 #include <stdlib.h>   
-#include <stdbool.h>  
+#include <stdbool.h> 
+#include <sys/types.h>
+#include <sys/wait.h>
 
 // Project-specific headers
 #include "libft/libft.h"
 #include "utils/utils.h"
+#include "signal/signal.h"    
 #include "structMinishell.h"
 #include "read/read.h"
 #include "env/env.h"
 #include "exv/exv.h"
-#include "token/token.h" 
-#include "builtIn/builtIn.h"      
+#include "token/token.h"
+#include "builtIn/builtIn.h"
 
 #endif /* MINISHELL_H */

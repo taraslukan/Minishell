@@ -9,6 +9,7 @@ typedef struct s_coreStruct t_coreStruct;
 typedef struct s_comand
 {
     char            *exe;
+    int             argc;
     char            **args;
     char            *in_file;
     char            *out_file;

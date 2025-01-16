@@ -23,6 +23,10 @@ static void start_process(t_coreStruct *core)
 int main(void)
 {
     t_coreStruct    core;
+
+    signal(SIGINT, handle_sigint);
+    signal(SIGTSTP, handle_sigtstp);
+    signal(SIGQUIT, SIG_IGN);
     
     core.env = copy_env();
     start_process(&core);
