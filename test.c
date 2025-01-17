@@ -1,6 +1,10 @@
-#include <stdio.h>
+#include "minishell.h"
 
 int main(void)
 {
-    printf("test");
+
+    char *path;
+
+    path = getenv("OLDPWD");
+    printf("%s", path);
 }

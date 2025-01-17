@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 14:22:05 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/17 12:41:29 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void execute_builtin(const t_comand *cmd)
     } else if (strcmp(cmd->exe, "cd") == 0) {
         printf("cd");
     } else if (strcmp(cmd->exe, "pwd") == 0) {
-        printf("pwd");
+        ft_pwd();
     } else if (strcmp(cmd->exe, "export") == 0) {
         printf("export");
     } else if (strcmp(cmd->exe, "unset") == 0) {
@@ -41,7 +41,7 @@ void execute_builtin(const t_comand *cmd)
     } else if (strcmp(cmd->exe, "env") == 0) {
         print_env(cmd->core->env);
     } else if (strcmp(cmd->exe, "exit") == 0) {
-        printf("exit");
+        ft_exit();
     }
 }
 bool is_builtin(const char *cmd)

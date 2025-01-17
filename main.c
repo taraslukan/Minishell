@@ -1,4 +1,6 @@
-#include "minishell.h"
+#include "minishell.h"  // Includi il tuo header con extern
+pid_t pid = -1;         // Definisci la variabile globale
+
 
 // static void set_home(void)
 // {
@@ -22,27 +24,24 @@ static void start_process(t_coreStruct *core)
 
 static void fork_builde(t_coreStruct *core)
 {
-    int         status;
-
-    // Esegui il ciclo per rilanciare la funzione solo se necessario
+    int     status;
+    
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
     while (1) {
         pid = fork();
-        if (pid == -1) {
-            perror("Errore nella fork");
-            continue; // Ripeti il fork in caso di errore
-        }
-
-        if (pid == 0) {  // Processo figlio
-            signal(SIGINT, handle_sigint);  // Gestore per SIGINT
+        if (pid == -1) 
+            continue; 
+        if (pid == 0) {
+            signal(SIGINT, handle_sigint);
             signal(SIGTSTP, handle_sigtstp);
             signal(SIGQUIT, SIG_IGN);
-            start_process(core);  // Avvia il processo figlio
-        } else {  // Processo padre
+            start_process(core);
+        } else { 
             waitpid(pid, &status, 0);
-            if (WIFSIGNALED(status)) {
-                // Il processo figlio è stato terminato, rilancia la fork
-                continue;
-            }
+            int exit_code = WEXITSTATUS(status);
+            if (exit_code == 99) 
+                exit(0);
         }
     }
 }

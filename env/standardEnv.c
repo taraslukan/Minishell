@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:39:04 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 13:55:49 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/17 12:32:49 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	**copy_env(void)
 	i = 0;
 	while (environ[line])
 		line++;
-	printf("%zu", line);
 	new_env = malloc((line +1) * sizeof(char *));
 	if(!new_env)
 		return(perror("malloc env"), NULL);
