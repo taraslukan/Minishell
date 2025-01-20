@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:15:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 14:09:04 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/20 13:27:07 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,10 @@ void	std_exv(t_comand *comand);
 bool    is_builtin(const char *cmd);
 void    execute_builtin(const t_comand *cmd);
 //void    execute_builtin(const t_comand *cmd);
+
+char    *find_path(t_comand *cmd);
+void    set_directory(t_comand *cmd);
+void    reset_directory(t_comand *cmd);
+void    one_fun_std_exe(t_comand *cmd);
 
 #endif /* EXC_H */

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:55:52 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/17 12:58:31 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/17 19:04:58 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,14 @@ void    ft_exit()
 #include <string.h>
 #include <errno.h>
 
-void ft_cd(int argc, char **argv)
+void ft_cd(const t_comand *cmd)
 {
-    char    cwd[1024];
-    char    *oldpwd;
-    char    *path;
+    (void) cmd;
     
-    if (argc > 1)
-        return(printf("cd: string not in pwd: %s\n", path[1]));
-    ft_strlcpy(path ,argv[1], ft_strlen(argv[1]));
-    if (!path || ft_strcmp(path, "~") == 0)
-        path = getenv("HOME");
-
-    if (ft_strcmp(path, "-") == 0 || ft_strcmp(path, "..") == 0)
-        path = getenv("OLDPWD");
-    oldpwd = getcwd(NULL, 0);
-    if (chdir(path) == -1) {
-        fprintf(stderr, "cd: %s: %s\n", path, strerror(errno));
-        free(oldpwd);
-        return;
-    }
-    if (oldpwd)
-        setenv("OLDPWD", oldpwd, 1);
-    if (getcwd(cwd, sizeof(cwd)))
-        setenv("PWD", cwd, 1);
-    free(oldpwd);
+    printf("cd\n");
+    chdir(getenv("HOME"));
+    
+    
 }
 
 void    ft_pwd()

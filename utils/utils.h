@@ -9,5 +9,6 @@
 
 
 void    *ft_rlc(void *list, size_t old_size, size_t new_size);
+int	    free_matrix(char **matrix);
 
 #endif /* MINISHELL_H */

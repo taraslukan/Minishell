@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:32:07 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/15 18:38:10 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/20 13:29:58 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,17 @@ void *ft_rlc(void *list, size_t old_size, size_t new_size)
     ft_memcpy(new_list, list, copy_size);
     free(list);
     return (new_list);
+}
+int	free_matrix(char **matrix)
+{
+	int	y;
+
+	y = 0;
+	while (matrix[y] != NULL)
+	{
+		free(matrix[y]);
+		y++;
+	}
+	free(matrix);
+	return (1);
 }

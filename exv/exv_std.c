@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/17 12:00:02 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/20 15:13:02 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,31 @@ extern char **environ;
 //     }
 // }
 
-void std_exv(t_comand *comand)
+void call_exe_func(t_comand *cmd)
 {
-	if (is_builtin(comand->exe))
-	{
-		execute_builtin(comand);
-		_exit(0);
-	}
-	if (access(comand->exe, X_OK) != 0)
-	{
-		fprintf(stderr, "Errore: accesso negato o file inesistente\n");
-		_exit(127);
-	}
-	if (execve(comand->exe, comand->args, comand->core->env) == -1)
-	{
-		perror("Errore in execve");
-		_exit(126);
-	}
-	_exit(0);
+    pid_t pid;
+
+    pid = fork();
+    if (pid == -1) {
+        perror("Fork failed");
+        exit(EXIT_FAILURE);
+    }
+    if (pid == 0) {
+        one_fun_std_exe(cmd);
+        exit(EXIT_SUCCESS); // Terminare il figlio in modo esplicito
+    } else {
+        // Siamo nel padre
+        int status;
+		waitpid(pid, &status, 0);
+    }
+}
+
+void std_exv(t_comand *cmd)
+{
+    if (is_builtin(cmd->exe)) {
+        execute_builtin(cmd);
+    } else {
+		printf("std");
+        call_exe_func(cmd);
+    }
 }

@@ -9,7 +9,7 @@ pid_t pid = -1;         // Definisci la variabile globale
 //     home = getenv("HOME");
 //     chdir(home);
 // }
-static void start_process(t_coreStruct *core)
+ void start_process(t_coreStruct *core)
 {
     while (1)
     {
@@ -18,31 +18,32 @@ static void start_process(t_coreStruct *core)
             continue;
         tokenize(core);
         std_exv(&core->functions[0]);
-        continue;
+        break;
     }
 }
 
 static void fork_builde(t_coreStruct *core)
 {
-    int     status;
-    
     signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
-    while (1) {
-        pid = fork();
-        if (pid == -1) 
-            continue; 
-        if (pid == 0) {
-            signal(SIGINT, handle_sigint);
-            signal(SIGTSTP, handle_sigtstp);
-            signal(SIGQUIT, SIG_IGN);
-            start_process(core);
-        } else { 
-            waitpid(pid, &status, 0);
-            int exit_code = WEXITSTATUS(status);
-            if (exit_code == 99) 
-                exit(0);
-        }
+
+    while (1) 
+        start_process(core);
+}
+
+void std_directory_save(t_coreStruct *core)
+{
+    core->stdin_copy = dup(STDIN_FILENO);
+    if (core->stdin_copy == -1)
+    {
+        perror("dup stdin");
+        exit(EXIT_FAILURE);
+    }
+    core->stdout_copy = dup(STDOUT_FILENO);
+    if (core->stdout_copy == -1)
+    {
+        perror("dup stdout");
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -51,6 +52,7 @@ int main(void)
     t_coreStruct core;
 
     core.env = copy_env();
+    std_directory_save(&core);
     fork_builde(&core);
     return (0);
 }

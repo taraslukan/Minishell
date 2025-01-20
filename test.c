@@ -5,6 +5,6 @@ int main(void)
 
     char *path;
 
-    path = getenv("OLDPWD");
+    path = getenv("PATH");
     printf("%s", path);
 }

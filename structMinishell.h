@@ -30,6 +30,9 @@ typedef struct s_coreStruct
     char        **pipeSplit;
     char        **env;
     char        *imput;
+    char        *path;
+    int         stdin_copy;
+    int         stdout_copy;
 } t_coreStruct;
 
 #endif /* STRUCTMINISHELL_H */
