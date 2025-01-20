@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exv_builtIn_finder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukan <lukan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/17 16:37:47 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/20 15:54:09 by lukan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "exv.h"
 
@@ -29,9 +30,9 @@ static char **built_in_finder()
 void execute_builtin(const t_comand *cmd)
 {
     if (strcmp(cmd->exe, "echo") == 0) {
-        printf("echo");
+        ft_echo(cmd->argc, cmd->args);
     } else if (strcmp(cmd->exe, "cd") == 0) {
-        ft_cd(cmd);
+         printf("cd \n");//ft_cd(cmd);
     } else if (strcmp(cmd->exe, "pwd") == 0) {
         ft_pwd();
     } else if (strcmp(cmd->exe, "export") == 0) {
