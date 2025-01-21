@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:08:28 by lukan             #+#    #+#             */
-/*   Updated: 2025/01/15 17:09:35 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/20 16:20:13 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ bool check_delimiter(const char *str, const char *delimiter)
 
     int start = end;													// Trova l'inizio dell'ultima parola
     while (start >= 0 && str[start] != ' ')
+	{
         start--;
-
+	}
     // Confronta l'ultima parola con il delimitatore
 	return (ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0);
 

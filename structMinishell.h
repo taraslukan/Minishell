@@ -11,8 +11,8 @@ typedef struct s_comand
     char            *exe;
     int             argc;
     char            **args;
-    char            *in_file;
-    char            *out_file;
+    int             in_fd;
+    int             out_fd;
     bool            append;
     t_coreStruct    *core;
 } t_comand;
@@ -33,6 +33,9 @@ typedef struct s_coreStruct
     char        *path;
     int         stdin_copy;
     int         stdout_copy;
+    int         std_pipe_in;
+    int         std_pipe_out;
+    int         fd[2];
 } t_coreStruct;
 
 #endif /* STRUCTMINISHELL_H */

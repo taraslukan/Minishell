@@ -29,8 +29,8 @@ void print_functions( t_coreStruct *core)
         printf("\n");
 
         // Stampa file di input/output
-        printf("  Input file: %s\n", cmd->in_file ? cmd->in_file : "(none)");
-        printf("  Output file: %s\n", cmd->out_file ? cmd->out_file : "(none)");
+        printf("  Input file: %d\n", cmd->in_fd);
+        printf("  Output file: %d\n", cmd->out_fd);
         printf("  Append mode: %s\n", cmd->append ? "true" : "false");
         printf("\n");
     }

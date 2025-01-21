@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtIn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukan <lukan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:55:52 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/20 15:37:18 by lukan            ###   ########.fr       */
+/*   Updated: 2025/01/21 14:25:14 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ void    ft_exit()
 {
     exit(99);
 }
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
 
 // void ft_cd(int argc, char **argv)
 // {

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/20 15:13:02 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/21 17:03:38 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,51 @@
 
 extern char **environ;
 
-// void	case_finder(t_coreStruct *core)
-// {
-// 	if(core->pipe.exists)
-// 		pipe_exv(core);
-// 	else
-// 		std_exv(&core->functions[0]);
-// }
-
-// void	pipe_exv(t_coreStruct *core)
-// {
-
-// }
-
-// void std_exv(t_comand *comand) {
-//     if (is_builtin(comand->exe)) {
-//         execute_builtin(comand);
-//         return;
-//     }
-
-//     if (access(comand->exe, X_OK) != 0) {
-//         printf("Errore: accesso negato o file inesistente");
-//         return;
-//     }
-
-//     if (execve(comand->exe, comand->args, comand->core->env) == -1) {
-//         printf("Errore in execve");
-// 		return;
-//     }
-// }
-
 void call_exe_func(t_comand *cmd)
 {
     pid_t pid;
+    int status;
 
     pid = fork();
-    if (pid == -1) {
+    if (pid == -1)
+    {
         perror("Fork failed");
         exit(EXIT_FAILURE);
     }
-    if (pid == 0) {
+    if (pid == 0)
+    {
+        printf("START:: \n");
+        signal(SIGINT, SIG_DFL);
+        signal(SIGTSTP, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
         one_fun_std_exe(cmd);
-        exit(EXIT_SUCCESS); // Terminare il figlio in modo esplicito
-    } else {
-        // Siamo nel padre
-        int status;
-		waitpid(pid, &status, 0);
+        exit(EXIT_FAILURE); // Should not reach here
     }
+    else
+    {
+        signal(SIGINT, SIG_IGN);
+        signal(SIGQUIT, SIG_IGN);
+        waitpid(pid, &status, 0);  // Aspetta che il figlio termini
+
+        if (WIFEXITED(status)) {
+            int exit_code = WEXITSTATUS(status);  // Estrae il codice di uscita
+            printf("Il processo figlio è terminato con codice di uscita: %d\n", exit_code);
+        }
+    }
+    
 }
 
-void std_exv(t_comand *cmd)
+void std_exv(t_coreStruct *core)
 {
-    if (is_builtin(cmd->exe)) {
-        execute_builtin(cmd);
-    } else {
-		printf("std");
-        call_exe_func(cmd);
+    size_t i = 0;
+
+    while (i < core->pipe.number)
+    {
+        printf("Eseguo %zu / %zu\n", i, core->pipe.number);
+        if (is_builtin(core->functions[i].exe))
+            execute_builtin(&core->functions[i]);
+        else
+            call_exe_func(&core->functions[i]);
+        i++;
     }
 }

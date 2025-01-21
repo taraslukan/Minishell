@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:15:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/20 13:27:07 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/21 14:34:35 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "../structMinishell.h"
 
 void	case_finder(t_coreStruct *core);
-void	std_exv(t_comand *comand);
+void    std_exv(t_coreStruct *core);
 
 // exv_builtin_finder
 bool    is_builtin(const char *cmd);
