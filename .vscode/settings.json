@@ -3,6 +3,7 @@
         "exv.h": "c",
         "stdbool.h": "c",
         "minishell.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "string.h": "c"
     }
 }

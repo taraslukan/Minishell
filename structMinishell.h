@@ -11,8 +11,8 @@ typedef struct s_comand
     char            *exe;
     int             argc;
     char            **args;
-    int             in_fd;
-    int             out_fd;
+    char            *in_file;
+    char            *out_file;
     bool            append;
     t_coreStruct    *core;
 } t_comand;
