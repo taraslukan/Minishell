@@ -35,3 +35,28 @@ void print_functions( t_coreStruct *core)
         printf("\n");
     }
 }
+
+void print_command(const t_comand *cmd) {
+    if (!cmd) {
+        printf("No command to display.\n");
+        return;
+    }
+
+    printf("Command:\n");
+    printf("  Executable: %s\n", cmd->exe ? cmd->exe : "(null)");
+
+    printf("  Arguments: |");
+    if (cmd->args) {
+        for (size_t j = 0; cmd->args[j]; j++) {
+            printf("%s\n             |", cmd->args[j]);
+        }
+    } else {
+        printf("(none)");
+    }
+    printf("\n");
+
+    printf("  Input file: %s\n", cmd->in_file ? cmd->in_file : "(null)");
+    printf("  Output file: %s\n", cmd->out_file ? cmd->out_file : "(null)");
+    printf("  Append mode: %s\n", cmd->append ? "true" : "false");
+    printf("\n");
+}
