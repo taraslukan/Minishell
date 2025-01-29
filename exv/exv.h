@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exv.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:15:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/27 17:17:06 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/29 17:16:56 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,23 @@
 #include "../minishell.h"
 #include "../structMinishell.h"
 
-void    execute_builtin(const t_comand *cmd);
-bool    is_builtin(const char *cmd);
+typedef struct s_t_exec_manager
+{
+    int         old_in;
+    int         old_out;
 
-void    call_exe_func(t_comand *cmd, int *fd);
-void    std_exv(t_coreStruct *core);
+    int         pipe_std_in;
+    int         pipe_std_out;
+}t_exec_manager;
 
-char    *find_path(t_comand *cmd);
-void    set_directory(t_comand *cmd, int *fd);
-void    exe_func(t_comand *cmd, int *fd);
+void        execute_builtin(const t_comand *cmd);
+bool        is_builtin(const char *cmd);
+
+t_exec_manager  call_exe_func(t_comand *cmd, int *old_fd, size_t i) ;
+void        std_exv(t_coreStruct *core);
+
+char        *find_path(t_comand *cmd);
+void        set_directory(t_comand *cmd, int pipe_std_in, int pipe_std_out);
+void        exe_func(t_comand *cmd, int pipe_std_in, int pipe_std_out);
 
 #endif /* EXC_H */

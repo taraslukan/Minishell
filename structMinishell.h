@@ -38,4 +38,6 @@ typedef struct s_coreStruct
     int         fd[2];
 } t_coreStruct;
 
+
+
 #endif /* STRUCTMINISHELL_H */
