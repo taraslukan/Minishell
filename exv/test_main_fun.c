@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 17:12:02 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/29 18:20:33 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char *find_path(t_comand *cmd)
 		joined_path = ft_strjoin(split_path[i], "/");
 		if (!joined_path)
 			break;
-
 		candidate_path = ft_strjoin(joined_path, cmd->args[0]);
 		free(joined_path);
 		if (!candidate_path)

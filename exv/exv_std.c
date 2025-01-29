@@ -6,125 +6,111 @@
 /*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 17:17:46 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/29 18:52:47 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exv.h"
 
-t_exec_manager call_exe_func(t_comand *cmd, int *old_fd, size_t i)
+static void	manage_pipe_close_utils(t_exec_manager *tools)
 {
-    int         fd[2]; 
-    int         status;
-    int         pipe_std_in;
-    int         pipe_std_out;
-    pid_t       pid;
-    t_exec_manager  ret;
-
-    fd[0] = -1;
-    fd[1] = -1;
-
-    if (i != cmd->core->pipe.number - 1)
+		if (tools->index == 0)
+			close(tools->fd[1]);
+		else if (tools->index == tools->cmd->core->pipe.number - 1)
+			close(tools->old_fd[0]);
+		else
+		{
+			close(tools->old_fd[0]); 
+			close(tools->fd[1]);
+		}
+}
+static void	manage_pipe_redirect_utils(t_exec_manager *tools)
+{
+	if (tools->index == 0)
     {
-        if (pipe(fd))
-        {
-            perror("Pipe creation failed");
-            exit(EXIT_FAILURE);
-        }
+        tools->pipe_std_in = -1;
+        tools->pipe_std_out = tools->fd[1];
     }
-    ret.in = fd[0];
-    ret.out = fd[1];
-    pid = fork();
-    if (pid == -1)
+    else if (tools->index == tools->cmd->core->pipe.number - 1)
     {
-        perror("Fork failed");
-        exit(EXIT_FAILURE);
-    }
-
-    if (pid == 0)
-    { 
-        signal(SIGINT, SIG_DFL);
-        signal(SIGTSTP, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-
-        
-        if (i == 0)
-        {
-            pipe_std_in = -1;
-            pipe_std_out = fd[1];
-        }
-        else if (i == cmd->core->pipe.number - 1)
-        {
-            pipe_std_in = old_fd[0]; 
-            pipe_std_out = -1;        
-        }
-        else
-        {
-            pipe_std_in = old_fd[0];  
-            pipe_std_out = fd[1];     
-        }
-        exe_func(cmd, pipe_std_in, pipe_std_out); 
-        exit(EXIT_FAILURE);                     
+        tools->pipe_std_in = tools->old_fd[0]; 
+        tools->pipe_std_out = -1;        
     }
     else
     {
-        signal(SIGINT, SIG_IGN);
-        signal(SIGQUIT, SIG_IGN);
-
-        if (waitpid(pid, &status, 0) == -1)
-        {
-            perror("waitpid failed");
-            exit(EXIT_FAILURE);
-        }
-
-       
-        if (i == 0)
-        {
-            printf("chiudo a:%d \n",fd[1] );
-            close(fd[1]);
-        }
-        else if (i == cmd->core->pipe.number - 1)
-        {
-            printf("chiudo b:%d \n",old_fd[0]);
-            close(old_fd[0]);
-        }
-        else
-        {
-             printf("chiudo c:%d \n",old_fd[0] );
-              printf("chiudo d:%d \n",fd[1] );
-            close(old_fd[0]); 
-            close(fd[1]);
-        }
+        tools->pipe_std_in = tools->old_fd[0];  
+        tools->pipe_std_out = tools->fd[1];     
     }
-    return ret;
+}
+static void manage_pipe(t_exec_manager *tools)
+{
+	if(tools->fd[0] != -1)
+	{
+		tools->old_fd[0] = tools->fd[0];
+		tools->old_fd[1] = tools->fd[1];
+	}
+	if (tools->index != (tools->cmd->core->pipe.number - 1))
+	{
+		if (pipe(tools->fd))
+		{
+			perror("Pipe creation failed");
+			exit(EXIT_FAILURE);
+		}
+	}
+	manage_pipe_redirect_utils(tools);
+}
+
+void call_exe_func(t_exec_manager *tools)
+{
+	int         	status;
+	pid_t       	pid;
+
+	manage_pipe(tools);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Fork failed");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{ 
+		signal(SIGINT, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		exe_func(tools->cmd, tools->pipe_std_in, tools->pipe_std_out); 
+		exit(EXIT_FAILURE);                     
+	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	if (waitpid(pid, &status, 0) == -1)
+		exit(EXIT_FAILURE);
+	manage_pipe_close_utils(tools);
 }
 
 void std_exv(t_coreStruct *core)
 {
-    int old_fd[2];
-    t_exec_manager temporany;
+	t_exec_manager	tools;
+	size_t			i;
 
-    old_fd[0] = -1;
-    old_fd[1] = -1;
-    if (!core || core->pipe.number <= 0 || !core->functions)
-    {
-        fprintf(stderr, "Invalid core structure\n");
-        exit(EXIT_FAILURE);
-    }
-
-    for (size_t i = 0; i < core->pipe.number; i++)
-    {
-        if (is_builtin(core->functions[i].exe))
-        {
-            execute_builtin(&core->functions[i]);
-        }
-        else
-        {
-            temporany = call_exe_func(&core->functions[i], old_fd, i);
-            old_fd[0] = temporany.in;
-            old_fd[1] = temporany.out;
-        }
-    }
-    close(old_fd[0]);
-    close(old_fd[1]);
+	i = 0;
+	if (!core || core->pipe.number <= 0 || !core->functions)
+	{
+		fprintf(stderr, "Invalid core structure\n");
+		exit(EXIT_FAILURE);
+	}
+	manager_tools(&tools);
+	while (i < core->pipe.number)
+	{
+		tools.cmd = &core->functions[i];
+		tools.index = i;
+		if (is_builtin(core->functions[i].exe))
+			execute_builtin(&core->functions[i]);
+		else
+			call_exe_func(&tools);
+		i++;
+	}
+	close(tools.old_fd[0]);
+	close(tools.old_fd[1]);
+	close(tools.fd[0]);
+	close(tools.fd[1]);
 }
