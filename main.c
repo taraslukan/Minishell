@@ -1,11 +1,16 @@
-#include "minishell.h" // Includi il tuo header con extern
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
+/*   Updated: 2025/01/29 19:43:54 by fluzi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-
+#include "minishell.h"
 
 void start_process(t_coreStruct *core)
 {
@@ -14,7 +19,6 @@ void start_process(t_coreStruct *core)
         core->imput = start_read();
         if (!core->imput)
             continue;
-
         tokenize(core);
         std_exv(core);
         break;

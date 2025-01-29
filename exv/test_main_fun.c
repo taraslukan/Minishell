@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 18:20:33 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/29 19:33:39 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern char **environ;
 
-char *find_path(t_comand *cmd)
+char	*find_path(t_exec_manager *tools)
 {
 	char **split_path;
 	char *candidate_path = NULL;
@@ -22,7 +22,7 @@ char *find_path(t_comand *cmd)
 	char *path_env = getenv("PATH");
 	int i = 0;
 
-	if (!cmd || !cmd->args || !cmd->args[0] || !path_env)
+	if (!tools->cmd || !tools->cmd->args || !tools->cmd->args[0] || !path_env)
 		return NULL;
 	split_path = ft_split(path_env, ':');
 	if (!split_path)
@@ -31,14 +31,12 @@ char *find_path(t_comand *cmd)
 		joined_path = ft_strjoin(split_path[i], "/");
 		if (!joined_path)
 			break;
-		candidate_path = ft_strjoin(joined_path, cmd->args[0]);
+		candidate_path = ft_strjoin(joined_path, tools->cmd->args[0]);
 		free(joined_path);
 		if (!candidate_path)
 			break;
-
 		if (access(candidate_path, X_OK) == 0)
 			break;
-
 		free(candidate_path);
 		candidate_path = NULL;
 		i++;
@@ -47,15 +45,15 @@ char *find_path(t_comand *cmd)
 	return candidate_path;
 }
 
-void redirect_input(t_comand *cmd, int pipe_std_in)
+void redirect_input(t_exec_manager *tools)
 {
 	int in_fd = -1;
 
-	if (cmd->in_file) {
-		if (strcmp(cmd->in_file, PIPE_STD_IN) == 0 && pipe_std_in >= 0)
-			in_fd = pipe_std_in;
+	if (tools->cmd->in_file) {
+		if (strcmp(tools->cmd->in_file, PIPE_STD_IN) == 0 && tools->pipe_std_in >= 0)
+			in_fd = tools->pipe_std_in;
 		else {
-			in_fd = open(cmd->in_file, O_RDONLY);
+			in_fd = open(tools->cmd->in_file, O_RDONLY);
 			if (in_fd == -1) {
 				perror("Error opening input file");
 				exit(EXIT_FAILURE);
@@ -70,20 +68,20 @@ void redirect_input(t_comand *cmd, int pipe_std_in)
 	}
 }
 
-void redirect_output(t_comand *cmd, int pipe_std_out)
+void redirect_output(t_exec_manager *tools)
 {
 	int out_fd = -1;
 	
-	if (cmd->out_file)
+	if (tools->cmd->out_file)
 	{
-		if (strcmp(cmd->out_file, PIPE_STD_OUT) == 0 && pipe_std_out >= 0)
-			out_fd = pipe_std_out;
+		if (strcmp(tools->cmd->out_file, PIPE_STD_OUT) == 0 && tools->pipe_std_out >= 0)
+			out_fd = tools->pipe_std_out;
 		else
 		{
-			if (cmd->append)
-				out_fd = open(cmd->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (tools->cmd->append)
+				out_fd = open(tools->cmd->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
-				out_fd = open(cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				out_fd = open(tools->cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
 			if (out_fd == -1) {
 				perror("Error opening output file");
@@ -100,18 +98,18 @@ void redirect_output(t_comand *cmd, int pipe_std_out)
 	}
 }
 
-void exe_func(t_comand *cmd, int pipe_std_in, int pipe_std_out)
+void exe_func(t_exec_manager *tools)
 {
-	char *path = find_path(cmd);
+	char *path = find_path(tools);
 
 	if (!path)
 	{
-		fprintf(stderr, "Command not found: %s\n", cmd->exe);
+		fprintf(stderr, "Command not found: %s\n", tools->cmd->exe);
 		exit(EXIT_FAILURE);
 	}
-	redirect_input(cmd, pipe_std_in);
-	redirect_output(cmd, pipe_std_out);
-	if (execve(path, cmd->args, environ) == -1)
+	redirect_input(tools);
+	redirect_output(tools);
+	if (execve(path, tools->cmd->args, environ) == -1)
 	{
 		perror("execve");
 		free(path);

@@ -33,9 +33,6 @@ typedef struct s_coreStruct
     char        *path;
     int         stdin_copy;
     int         stdout_copy;
-    int         std_pipe_in;
-    int         std_pipe_out;
-    int         fd[2];
 } t_coreStruct;
 
 

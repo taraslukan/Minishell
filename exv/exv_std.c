@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 18:52:47 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/29 19:28:06 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void call_exe_func(t_exec_manager *tools)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGTSTP, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		exe_func(tools->cmd, tools->pipe_std_in, tools->pipe_std_out); 
-		exit(EXIT_FAILURE);                     
+		exe_func(tools);
+		exit(EXIT_FAILURE);
 	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
