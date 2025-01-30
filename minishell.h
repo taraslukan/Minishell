@@ -6,6 +6,11 @@
 #define PIPE_STD_IN  "PIPE_STD_IN"
 #define PIPE_STD_OUT  "PIPE_STD_OUT"
 
+#define BLUE    "\001\033[1;34m\002"
+#define GREEN   "\001\033[1;32m\002"
+#define YELLOW  "\001\033[1;33m\002"
+#define RESET   "\001\033[0m\002"
+
 // Standard libraries
 #include <stdio.h>    
 #include <unistd.h>   

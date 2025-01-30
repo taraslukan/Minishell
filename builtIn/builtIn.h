@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtIn.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukan <lukan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:54:08 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/20 15:37:05 by lukan            ###   ########.fr       */
+/*   Updated: 2025/01/30 17:37:47 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void    builtin_export(char ***env, const char *key, const char *value);
 void    builtin_unset(char ***env, const char *key);
 void    ft_exit();
 void    ft_pwd();
+void    ft_cd(int argc, char **argv);
 
 void	ft_echo(int argc, char **argv);
 

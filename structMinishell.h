@@ -35,6 +35,4 @@ typedef struct s_coreStruct
     int         stdout_copy;
 } t_coreStruct;
 
-
-
 #endif /* STRUCTMINISHELL_H */

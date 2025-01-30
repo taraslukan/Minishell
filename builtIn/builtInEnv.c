@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:51:55 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 13:56:33 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/30 15:30:47 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void print_env(char **env)
     i = 0;
     while (env[i])
         printf("%s\n", env[i++]);
+    exit(0);
 }
 
 void builtin_export(char ***env, const char *key, const char *value)

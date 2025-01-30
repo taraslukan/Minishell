@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:08:42 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/28 14:03:11 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/30 12:51:11 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ size_t		count_pipe(char **matrix);
 char		**pipe_splitter(char *str);
 
 void 		print_functions(t_coreStruct *core);
-void print_command(const t_comand *cmd);
+void        print_command(const t_comand *cmd);
 
 #endif /* MINISHELL_H */

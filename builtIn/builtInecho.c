@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtInecho.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukan <lukan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 15:35:03 by lukan             #+#    #+#             */
-/*   Updated: 2025/01/20 14:36:57 by lukan            ###   ########.fr       */
+/*   Updated: 2025/01/30 15:29:52 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,18 @@ bool is_option_n(const char *arg)
 {
     int i = 1;
 
-    if (arg[0] != '-') // Non inizia con "-"
+    if (arg[0] != '-')
         return false;
 
-    while (arg[i] == 'n') // Controlla che siano solo 'n'
+    while (arg[i] == 'n')
         i++;
-
-    return (arg[i] == '\0'); // Deve terminare correttamente
+    return (arg[i] == '\0');
 }
 
-// Rimuove le virgolette singole o doppie da una stringa
 char *remove_quotes(const char *str)
 {
     size_t len = strlen(str);
-    char *result = malloc(len + 1); // Alloca memoria per la stringa senza virgolette
+    char *result = malloc(len + 1);
     size_t i = 0, j = 0;
 
     if (!result)
@@ -37,46 +35,42 @@ char *remove_quotes(const char *str)
 
     while (str[i])
     {
-        if (str[i] != '\'' && str[i] != '\"') // Salta le virgolette
+        if (str[i] != '\'' && str[i] != '\"')
         {
             result[j] = str[i];
             j++;
         }
         i++;
     }
-    result[j] = '\0'; // Termina la stringa
+    result[j] = '\0';
     return result;
 }
 
-// Funzione principale ft_echo
 void ft_echo(int argc, char **argv)
 {
-    bool newline = true; // Indica se stampare un newline alla fine
+    bool newline = true;
     int i = 1;
 
-    // Controlla l'opzione -n
     if (i < argc && is_option_n(argv[i]))
     {
-        newline = false; // Disabilita il newline
-        i++;             // Salta l'opzione
+        newline = false;
+        i++;
     }
-
-    // Processa e stampa i rimanenti argomenti
     while (i < argc + 1)
     {
-        char *clean_arg = remove_quotes(argv[i]); // Rimuovi virgolette
+        char *clean_arg = remove_quotes(argv[i]);
         if (!clean_arg)
         {
             fprintf(stderr, "Memory allocation error\n");
             return;
         }
         printf("%s", clean_arg);
-        free(clean_arg); // Libera la memoria temporanea
+        free(clean_arg);
         i++;
-        if (i < argc + 1) // Aggiungi uno spazio tra gli argomenti
+        if (i < argc + 1)
             printf(" ");
     }
-
-    if (newline) // Stampa un newline, se necessario
+    if (newline)
         printf("\n");
+    exit(0);
 }

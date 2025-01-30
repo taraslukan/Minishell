@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_main_fun.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 19:33:39 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/30 15:05:11 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,21 +100,29 @@ void redirect_output(t_exec_manager *tools)
 
 void exe_func(t_exec_manager *tools)
 {
-	char *path = find_path(tools);
+    char *path = NULL;
 
-	if (!path)
-	{
-		fprintf(stderr, "Command not found: %s\n", tools->cmd->exe);
-		exit(EXIT_FAILURE);
-	}
-	redirect_input(tools);
-	redirect_output(tools);
-	if (execve(path, tools->cmd->args, environ) == -1)
-	{
-		perror("execve");
-		free(path);
-		exit(EXIT_FAILURE);
-	}
-	free(path);
+    if (strchr(tools->cmd->exe, '/'))
+    {
+        if (access(tools->cmd->exe, X_OK) == 0)
+            path = strdup(tools->cmd->exe);
+    }
+    if (!path)
+        path = find_path(tools);
+
+    if (!path)
+    {
+        printf("Command '%s' not found\n", tools->cmd->exe);
+        exit(EXIT_FAILURE);
+    }
+    redirect_input(tools);
+    redirect_output(tools);
+    if (execve(path, tools->cmd->args, environ) == -1)
+    {
+        perror("execve");
+        free(path);
+        exit(EXIT_FAILURE);
+    }
+    free(path);
 }
 

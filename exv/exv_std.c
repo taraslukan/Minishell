@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exv_std.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 19:28:06 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/30 15:38:49 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exv.h"
 
-static void	manage_pipe_close_utils(t_exec_manager *tools)
+void	manage_pipe_close_utils(t_exec_manager *tools)
 {
 		if (tools->index == 0)
 			close(tools->fd[1]);
@@ -24,25 +24,25 @@ static void	manage_pipe_close_utils(t_exec_manager *tools)
 			close(tools->fd[1]);
 		}
 }
-static void	manage_pipe_redirect_utils(t_exec_manager *tools)
+void	manage_pipe_redirect_utils(t_exec_manager *tools)
 {
 	if (tools->index == 0)
-    {
-        tools->pipe_std_in = -1;
-        tools->pipe_std_out = tools->fd[1];
-    }
-    else if (tools->index == tools->cmd->core->pipe.number - 1)
-    {
-        tools->pipe_std_in = tools->old_fd[0]; 
-        tools->pipe_std_out = -1;        
-    }
-    else
-    {
-        tools->pipe_std_in = tools->old_fd[0];  
-        tools->pipe_std_out = tools->fd[1];     
-    }
+	{
+		tools->pipe_std_in = -1;
+		tools->pipe_std_out = tools->fd[1];
+	}
+	else if (tools->index == tools->cmd->core->pipe.number - 1)
+	{
+		tools->pipe_std_in = tools->old_fd[0]; 
+		tools->pipe_std_out = -1;        
+	}
+	else
+	{
+		tools->pipe_std_in = tools->old_fd[0];  
+		tools->pipe_std_out = tools->fd[1];     
+	}
 }
-static void manage_pipe(t_exec_manager *tools)
+void manage_pipe(t_exec_manager *tools)
 {
 	if(tools->fd[0] != -1)
 	{
@@ -104,7 +104,7 @@ void std_exv(t_coreStruct *core)
 		tools.cmd = &core->functions[i];
 		tools.index = i;
 		if (is_builtin(core->functions[i].exe))
-			execute_builtin(&core->functions[i]);
+			built_in_decision_menager(&tools);
 		else
 			call_exe_func(&tools);
 		i++;

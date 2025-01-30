@@ -8,11 +8,15 @@ char *rdLine(char *prompt)
 char *build_std_prompt(char *prompt)
 {
 	char *step;
-	step = ft_strjoin("Minishell: ", prompt);
-	return (ft_strjoin(step, " ➜> "));
+	char *colored_prompt;
+
+	step = ft_strjoin(BLUE "Minishell: " RESET GREEN, prompt);
+	colored_prompt = ft_strjoin(step, RESET YELLOW " ➜ " RESET);
+	free(step);
+	return (colored_prompt);
 }
 
-char	*start_read(void)
+char *start_read(void)
 {
 	char *input;
 	char cwd[PATH_MAX];
