@@ -5,6 +5,7 @@
         "minishell.h": "c",
         "libft.h": "c",
         "string.h": "c",
-        "builtin.h": "c"
+        "builtin.h": "c",
+        "read.h": "c"
     }
 }

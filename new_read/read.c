@@ -1,0 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 12:20:53 by fluzi             #+#    #+#             */
+/*   Updated: 2025/02/01 11:46:08 by fluzi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "read.h"
+
+void find_heredoc(t_read *r_tools)
+{
+    char *start;
+    char *end;
+    char *new_str;
+    
+    if (!r_tools || !r_tools->line)
+        return;
+    
+    start = find_heredoc_start(r_tools->line);
+    if (!start)
+    {
+        r_tools->heredoc = false;
+        return;
+    }
+    start += 2;
+    start = skip_spaces(start);
+    end = find_heredoc_delimiter(start);
+    r_tools->delimiter = extract_delimiter(start, end);
+    if (!r_tools->delimiter)
+        return;
+    
+    new_str = remove_heredoc(r_tools->line);
+    if (!new_str)
+        return;
+    
+    free(r_tools->line);
+    r_tools->line = new_str;
+    r_tools->heredoc = true;
+}
+
+void    std_here_doc(t_read *r_tools)
+{
+    char    *heredoc_line;
+    
+    create_file(r_tools);
+    while(1)
+    {
+        heredoc_line = readline("heredoc> ");
+        if (strcmp(heredoc_line, r_tools->delimiter) == 0)
+            break;
+        write_file(r_tools, heredoc_line);
+        free(heredoc_line);
+    }
+}
+
+void set_struct(t_read *r_tools)
+{
+    if (!r_tools)
+        return;
+    
+    r_tools->std = ft_strdup("");
+    r_tools->line = ft_strdup("");
+    r_tools->in_file = ft_strdup("");
+    r_tools->delimiter = ft_strdup("");
+    if (!r_tools->std || !r_tools->line || !r_tools->in_file || !r_tools->delimiter)
+    {
+        perror("Memory allocation failed");
+        exit(EXIT_FAILURE);
+    }
+    r_tools->heredoc = false;
+    r_tools->success = false;
+}
+
+void std_read(t_read *r_tools)
+{
+    if (!r_tools)
+        return;
+    
+    set_struct(r_tools);
+    r_tools->line = readline(build_std_prompt());
+    if (!r_tools->line)
+    {
+        r_tools->success = false;
+        return;
+    }
+    
+    add_history(r_tools->line);
+    find_heredoc(r_tools);
+    if (r_tools->heredoc)
+        std_here_doc(r_tools);
+}
+
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exv_std.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/30 15:38:49 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/31 11:38:08 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void std_exv(t_coreStruct *core)
 {
 	t_exec_manager	tools;
 	size_t			i;
+	pid_t			pids[core->pipe.number];
 
 	i = 0;
 	if (!core || core->pipe.number <= 0 || !core->functions)
@@ -106,9 +107,28 @@ void std_exv(t_coreStruct *core)
 		if (is_builtin(core->functions[i].exe))
 			built_in_decision_menager(&tools);
 		else
-			call_exe_func(&tools);
+		{
+			manage_pipe(&tools);
+			pids[i] = fork();
+			if (pids[i] == -1)
+			{
+				perror("Fork failed");
+				exit(EXIT_FAILURE);
+			}
+			if (pids[i] == 0) // Processo figlio
+			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGTSTP, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
+				exe_func(&tools);
+				exit(EXIT_FAILURE);
+			}
+		}
+		manage_pipe_close_utils(&tools);
 		i++;
 	}
+	for (size_t j = 0; j < core->pipe.number; j++)
+		waitpid(pids[j], NULL, 0);
 	close(tools.old_fd[0]);
 	close(tools.old_fd[1]);
 	close(tools.fd[0]);

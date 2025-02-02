@@ -1,5 +1,6 @@
 #include "read.h"
 
+
 char *rdLine(char *prompt)
 {
 	return (readline(prompt));
@@ -7,14 +8,15 @@ char *rdLine(char *prompt)
 
 char *build_std_prompt(char *prompt)
 {
-	char *step;
-	char *colored_prompt;
+    char *step;
+    char *colored_prompt;
 
-	step = ft_strjoin(BLUE "Minishell: " RESET GREEN, prompt);
-	colored_prompt = ft_strjoin(step, RESET YELLOW " ➜ " RESET);
-	free(step);
-	return (colored_prompt);
+    step = ft_strjoin(YELLOW "✗ " BLUE "Minishell: " RESET GREEN, prompt);
+    colored_prompt = ft_strjoin(step, RESET YELLOW " ➜ " RESET);
+    free(step);
+    return (colored_prompt);
 }
+
 
 char *start_read(void)
 {

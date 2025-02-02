@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:08:28 by lukan             #+#    #+#             */
-/*   Updated: 2025/01/20 16:20:13 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/01/31 12:13:07 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,12 @@ char	*ft_substr_tarl(const char *s, unsigned int start, size_t len)
 
     s_len = ft_strlen(s);
 
-    // Se `start` è fuori dalla stringa, ritorna una stringa vuota
     if (start >= s_len)
         return (ft_strdup(""));
 
-    // Calcola la lunghezza effettiva della sottostringa
     sub_len = s_len - start;
     if (sub_len > len)
         sub_len = len;
-
-    // Alloca memoria per la sottostringa
     ret = (char *)malloc(sizeof(char) * (sub_len + 1));
     if (!ret)
         return (NULL);
@@ -47,26 +43,24 @@ bool check_delimiter(const char *str, const char *delimiter)
     int len;
     int end;
 
-    if (!str || !delimiter)												// Controllo di sicurezza
+    if (!str || !delimiter)
         return (false);
 
     len = ft_strlen(str);
     end = len - 1;
 
-    if (end >= 0 && str[end] == '\n')									// Ignora il carattere \n finale, se presente
+    if (end >= 0 && str[end] == '\n')
         end--;
 
-    if (end >= 0 && str[end] == ' ')									// Controlla se ci sono spazi finali
+    if (end >= 0 && str[end] == ' ')
         return (false);
 
-    int start = end;													// Trova l'inizio dell'ultima parola
+    int start = end;
     while (start >= 0 && str[start] != ' ')
 	{
         start--;
 	}
-    // Confronta l'ultima parola con il delimitatore
 	return (ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0);
-
 }
 
 
@@ -77,10 +71,10 @@ char	*save_delimiter(int i, char *input)
 	char	*delimiter;
 
 	start = i;
-	while (input[i] && input[i] > ' ') // Trova la fine della parola
+	while (input[i] && input[i] > ' ')
 		i++;
 	len = i - start;
-	delimiter = ft_substr_tarl(input, start, len); // Salva il delimitatore
+	delimiter = ft_substr_tarl(input, start, len);
 	return (delimiter);
 }
 

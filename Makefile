@@ -7,42 +7,66 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/local/opt/readline/include -I$(L
 LDFLAGS = -L/usr/local/opt/readline/lib -lreadline -L$(LIBFTDIR) -lft
 LIBFTDIR = ./libft
 
-SRCS = main.c \
-		$(wildcard ./signal/*.c) \
-		$(wildcard ./builtIn/*.c) \
-		$(wildcard ./utils/*.c) \
-		$(wildcard ./env/*.c) \
-		$(wildcard ./exv/*.c) \
-    	$(wildcard ./read/*.c) \
-    	$(wildcard ./token/*.c)
-OBJS = $(SRCS:%.c=obj/%.o)
+# Colori
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+BLUE = \033[1;34m
+RED = \033[1;31m
+NC = \033[0m  # Reset
 
-all: $(NAME)
+SRCS = main.c \
+     $(wildcard ./new_read/*.c) \
+     $(wildcard ./signal/*.c) \
+     $(wildcard ./builtIn/*.c) \
+     $(wildcard ./utils/*.c) \
+     $(wildcard ./env/*.c) \
+     $(wildcard ./exv/*.c) \
+     $(wildcard ./token/*.c)
+OBJS = $(SRCS:%.c=%.o)
+
+all: banner $(NAME)
+
+banner:
+	@echo "${BLUE}============================${NC}"
+	@echo "${YELLOW} Compilazione di Minishell... ${NC}"
+	@echo "${BLUE}============================${NC}"
 
 $(NAME): $(OBJS) $(LIBFTDIR)/libft.a
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
+	@echo "${GREEN}[✔] Creazione eseguibile: ${NAME}${NC}"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
+	@echo "${GREEN}[✔] Minishell compilato con successo!${NC}"
+	@$(MAKE) ask_exec
 
 $(LIBFTDIR)/libft.a:
-	make -C $(LIBFTDIR)
+	@echo "${YELLOW}[→] Compilazione della libreria libft...${NC}"
+	@make -C $(LIBFTDIR)
+	@echo "${GREEN}[✔] libft compilata!${NC}"
 
-obj/%.o: %.c | obj
-	mkdir -p $(dir $@) # Crea la directory per i file oggetto
-	$(CC) $(CFLAGS) -c $< -o $@
-
-obj:
-	mkdir -p obj
+%.o: %.c
+	@echo "${YELLOW}[→] Compilazione: $<${NC}"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf obj
-	make -C $(LIBFTDIR) clean
+	@echo "${RED}[✖] Pulizia degli oggetti...${NC}"
+	@rm -rf $(OBJS)
+	@make -C $(LIBFTDIR) clean
+	@echo "${GREEN}[✔] Pulizia completata!${NC}"
 
 fclean: clean
-	rm -f $(NAME)
-	make -C $(LIBFTDIR) fclean
+	@echo "${RED}[✖] Rimozione dell'eseguibile...${NC}"
+	@rm -f $(NAME)
+	@make -C $(LIBFTDIR) fclean
+	@echo "${GREEN}[✔] Pulizia completa!${NC}"
 
 re: fclean all
 
-exec: re
-	./minishell
+ask_exec:
+	@echo "${BLUE}=================================${NC}"
+	@echo "${GREEN}Minishell pronto all'esecuzione!${NC}"
+	@echo "${BLUE}=================================${NC}"
+	@printf "${YELLOW}Vuoi avviare Minishell? (y/n): ${NC}"
+	@read choice; if [ "$$choice" = "y" ]; then ./minishell; fi
 
-.PHONY: all clean fclean re
+exec: re
+
+.PHONY: all clean fclean re exec ask_exec

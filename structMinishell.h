@@ -2,9 +2,21 @@
 #define STRUCTMINISHELL_H
 
 #include <stdbool.h>
-#include <stddef.h> // Per `size_t`
+#include <stddef.h> 
+
 
 typedef struct s_coreStruct t_coreStruct;
+
+typedef struct s_read
+{
+    char    *std;
+    char    *line;
+    char    *in_file;
+    char    *delimiter;
+    bool    heredoc;
+    bool    success;
+
+} t_read;
 
 typedef struct s_comand
 {
@@ -25,14 +37,15 @@ typedef struct s_pipeAdmin
 
 typedef struct s_coreStruct
 {
-    t_comand    *functions;
-    t_pipeAdmin pipe;
-    char        **pipeSplit;
-    char        **env;
-    char        *imput;
-    char        *path;
-    int         stdin_copy;
-    int         stdout_copy;
+    t_comand        *functions;
+    t_pipeAdmin     pipe;
+    t_read          read;
+    char            *imput;
+    char            **pipeSplit;
+    char            **env;
+    char            *path;
+    int             stdin_copy;
+    int             stdout_copy;
 } t_coreStruct;
 
 #endif /* STRUCTMINISHELL_H */

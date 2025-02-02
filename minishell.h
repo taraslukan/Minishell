@@ -14,7 +14,8 @@
 // Standard libraries
 #include <stdio.h>    
 #include <unistd.h>   
-#include <limits.h>   
+#include <limits.h>
+#include <linux/limits.h>
 #include <string.h>
 #include <stdlib.h>   
 #include <stdbool.h> 
@@ -25,11 +26,11 @@
 #include <signal.h> 
 
 // Project-specific headers
+#include "new_read/read.h"
+#include "structMinishell.h"
 #include "libft/libft.h"
 #include "utils/utils.h"
 #include "signal/signal.h"    
-#include "structMinishell.h"
-#include "read/read.h"
 #include "env/env.h"
 #include "exv/exv.h"
 #include "token/token.h"

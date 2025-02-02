@@ -6,29 +6,55 @@
 /*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/29 19:43:54 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/02 17:09:52 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+
+void print_read(t_read *r_tools)
+{
+    if (!r_tools)
+    {
+        printf("t_read is NULL\n");
+        return;
+    }
+
+    printf("Standard Line: %s\n", r_tools->std ? r_tools->std : "(NULL)");
+    printf("Line: %s\n", r_tools->line ? r_tools->line : "(NULL)");
+    printf("Input File: %s\n", r_tools->in_file ? r_tools->in_file : "(NULL)");
+    printf("Delimiter: %s\n", r_tools->delimiter ? r_tools->delimiter : "(NULL)");
+    printf("Heredoc: %s\n", r_tools->heredoc ? "true" : "false");
+    printf("Success: %s\n", r_tools->success ? "true" : "false");
+}
+
 void start_process(t_coreStruct *core)
 {
-    while (1)
+    
+    std_read(&core->read);
+    
+    if (strcmp(core->read.line, "") == 0)  // Se l'utente preme Ctrl+D, interrompi il ciclo
     {
-        core->imput = start_read();
-        if (!core->imput)
-            continue;
-        tokenize(core);
-        std_exv(core);
-        break;
+        printf("EOF detected. Exiting...\n");
+        exit(0);
     }
+    //print_read(&core->read);
+    tokenize(core);
+    std_exv(core);
+    if(core->read.heredoc)
+        unlink(core->read.in_file);
 }
 
 static void fork_builde(t_coreStruct *core)
 {
     signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
+
     while (1)
         start_process(core);
 }
@@ -53,8 +79,10 @@ int main(void)
 {
     t_coreStruct core;
 
-    core.env = copy_env();
+    
+    core.env = copy_env();  // Assicurati che questa funzione sia definita
     std_directory_save(&core);
     fork_builde(&core);
+
     return (0);
 }

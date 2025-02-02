@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenExtractor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/27 13:17:20 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/02 17:10:11 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 static void handle_file_redirections(t_comand *ret, char **matrix, int i, bool pipe_in, bool pipe_out)
 {
+	if(ret->core->read.heredoc )
+		ret->in_file = ret->core->read.in_file;
     if (pipe_in)
         ret->in_file = PIPE_STD_IN;
-    else 
+    else if (!ret->core->read.heredoc && !pipe_in)
         ret->in_file = NULL;
     if (pipe_out)
         ret->out_file = PIPE_STD_OUT;
@@ -42,27 +44,35 @@ static void handle_file_redirections(t_comand *ret, char **matrix, int i, bool p
 t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out, t_coreStruct *core)
 {
 	t_comand ret;
-	int i;
-	int j;
+	int i = 0, arg_count = 0;
 
-	i = 0;
-	j = 1;
-	ret.exe = matrix[i++];
-	int arg_count = 0;
-	while (matrix[i] && strcmp(matrix[i], ">") && strcmp(matrix[i], "<") && strcmp(matrix[i], ">>"))
-		arg_count++, i++;
-	ret.args = malloc(sizeof(char *) * (arg_count + 1));
-	ret.args[0] = ret.exe;
-	while (j <= arg_count)
+	while (matrix[i]) 
 	{
-		ret.args[j] = matrix[j];
-		j++;
+		if (!strcmp(matrix[i], ">") || !strcmp(matrix[i], "<") || !strcmp(matrix[i], ">>"))
+			i += 2;
+		else
+		{
+			arg_count++;
+			i++;
+		}
 	}
+	ret.args = malloc(sizeof(char *) * (arg_count + 1));
+	if (!ret.args)
+		return (ret);
+	int j = 0, k = 0;
+	while (matrix[j]) 
+	{
+		if (!strcmp(matrix[j], ">") || !strcmp(matrix[j], "<") || !strcmp(matrix[j], ">>"))
+			j += 2;
+		else
+			ret.args[k++] = matrix[j++];
+	}
+	ret.exe = ret.args[0];
+	ret.args[k] = NULL;
 	ret.argc = arg_count;
-	ret.args[arg_count + 1] = NULL;
 	ret.core = core;
-	handle_file_redirections(&ret, matrix, i, pipe_in, pipe_out);
-	return ret;
+	handle_file_redirections(&ret, matrix, 0, pipe_in, pipe_out);
+	return (ret);
 }
 
 t_comand *parse_pipeline(char ***pipeline_tokens, size_t num_pipes, t_coreStruct *core)
@@ -105,7 +115,7 @@ void tokenize(t_coreStruct *core)
 	size_t i;
 
 	i = 0;
-	char **matrix_split = pipe_splitter(core->imput);
+	char **matrix_split = pipe_splitter(core->read.line);
 	core->pipe.number = count_pipe(matrix_split);
 	core->pipeSplit = matrix_split;
 	char ***utils_matrix = build_pipeline_tokens(matrix_split, core->pipe.number);

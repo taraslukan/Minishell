@@ -10,5 +10,7 @@
 
 void    *ft_rlc(void *list, size_t old_size, size_t new_size);
 int	    free_matrix(char **matrix);
+char    *ft_itoa(int num);
+
 
 #endif /* MINISHELL_H */
