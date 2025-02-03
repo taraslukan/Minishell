@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exv_builtIn_finder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukan <lukan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/20 15:54:09 by lukan            ###   ########.fr       */
+/*   Updated: 2025/02/03 16:37:16 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ bool is_builtin(const char *cmd)
     {
         if (strcmp(cmd, builtins[i]) == 0)
             return true;
+        //free(builtins[i]);
         i++;
     }
+    //free(builtins);
     return false;
 }

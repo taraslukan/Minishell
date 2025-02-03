@@ -30,46 +30,44 @@ void call_exe_func_built_in_std(t_exec_manager *tools)
 }
 void exe_func_built_in_std(t_exec_manager *tools)
 {
-    char *cmd;
-    
-    cmd = tools->cmd->exe;
-    if (strcmp(cmd, "echo") == 0)
-    {
-        redirect_input(tools);
-        redirect_output(tools);
-        ft_echo(tools->cmd->argc, tools->cmd->args);
-    }
-    else if (strcmp(cmd, "pwd" ) == 0)
-    {
-        redirect_input(tools);
-        redirect_output(tools);
-        ft_pwd();
-    }
-    else if (strcmp(cmd, "env" ) == 0)
-    {
-        redirect_input(tools);
-        redirect_output(tools);
-        print_env(environ);
-        
-    }
-    free(cmd);
+	char *cmd;
+	
+	cmd = tools->cmd->exe;
+	if (strcmp(cmd, "echo") == 0)
+	{
+		redirect_input(tools);
+		redirect_output(tools);
+		ft_echo(tools->cmd->argc, tools->cmd->args);
+	}
+	else if (strcmp(cmd, "pwd" ) == 0)
+	{
+		redirect_input(tools);
+		redirect_output(tools);
+		ft_pwd();
+	}
+	else if (strcmp(cmd, "env" ) == 0)
+	{
+		redirect_input(tools);
+		redirect_output(tools);
+		print_env(environ);
+	}
+	free(cmd);
 }
 
 void built_in_decision_menager(t_exec_manager *tools)
 {
-    char *cmd;
-    
-    cmd = tools->cmd->exe;
-    if (strcmp(cmd, "echo") == 0 || strcmp(cmd, "pwd" ) == 0 || strcmp(cmd, "env" ) == 0)
-        call_exe_func_built_in_std(tools);
-    else if (strcmp(cmd, "cd") == 0)
-        ft_cd(tools->cmd->argc, tools->cmd->args);
-    else if (strcmp(cmd, "export") == 0)
-        printf("export");
-    else if (strcmp(cmd, "unset") == 0)
-        printf("unset");
-    else if (strcmp(cmd, "exit") == 0)
-        ft_exit();
-    
-    free(cmd);
+	char	*cmd;
+	
+	cmd = tools->cmd->exe;
+	if (strcmp(cmd, "echo") == 0 || strcmp(cmd, "pwd" ) == 0 || strcmp(cmd, "env" ) == 0)
+		call_exe_func_built_in_std(tools);
+	else if (strcmp(cmd, "cd") == 0)
+		ft_cd(tools->cmd->argc, tools->cmd->args);
+	else if (strcmp(cmd, "export") == 0)
+		printf("export");
+	else if (strcmp(cmd, "unset") == 0)
+		printf("unset");
+	else if (strcmp(cmd, "exit") == 0)
+		ft_exit();
+	free(cmd);
 }

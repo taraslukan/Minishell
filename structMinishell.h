@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h> 
 
+extern int g_last_exit_status;
 
 typedef struct s_coreStruct t_coreStruct;
 
@@ -15,6 +16,7 @@ typedef struct s_read
     char    *delimiter;
     bool    heredoc;
     bool    success;
+    bool    global_var_enable;
 
 } t_read;
 

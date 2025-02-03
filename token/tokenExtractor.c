@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenExtractor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/02 17:10:11 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/03 17:12:17 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ t_comand comand_write(char **matrix, bool pipe_in, bool pipe_out, t_coreStruct *
 
 t_comand *parse_pipeline(char ***pipeline_tokens, size_t num_pipes, t_coreStruct *core)
 {
-	t_comand *commands;
-	size_t i;
+	t_comand	*commands;
+	size_t		i;
 
 	i = 0;
 	commands = malloc(sizeof(t_comand) * num_pipes);
@@ -91,7 +91,7 @@ t_comand *parse_pipeline(char ***pipeline_tokens, size_t num_pipes, t_coreStruct
 		commands[i] = comand_write(pipeline_tokens[i], pipe_in, pipe_out, core);
 		i++;
 	}
-	return commands;
+	return (commands);
 }
 
 char ***build_pipeline_tokens(char **matrix_split, size_t num_pipes)
@@ -107,10 +107,10 @@ char ***build_pipeline_tokens(char **matrix_split, size_t num_pipes)
 		i++;
 	}
 	pipeline_tokens[num_pipes] = NULL;
-	return pipeline_tokens;
+	return (pipeline_tokens);
 }
 
-void tokenize(t_coreStruct *core)
+void	tokenize(t_coreStruct *core)
 {
 	size_t i;
 

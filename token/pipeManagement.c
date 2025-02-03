@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:06:29 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/13 17:23:28 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/03 15:36:36 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t count_pipe(char **matrix)
 {
-	size_t i;
+	size_t	i;
 	
 	i = 0;
 	while (matrix[i])
@@ -23,7 +23,7 @@ size_t count_pipe(char **matrix)
 }
 char **pipe_splitter(char *str)
 {
-	char **matrix;
+	char	**matrix;
 
 	matrix = ft_split(str, 124);
 	return (matrix);

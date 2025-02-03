@@ -6,5 +6,5 @@ int main(void)
     char *path;
 
     path = getenv("PATH");
-    printf("%s", path);
+    printf("%s\n", path);
 }

@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "valgrind-debug",
+			"target": "${command:cmake.launchTargetPath}",
+			"problemMatcher": [
+				"$valgrind-debug"
+			],
+			"label": "valgrind-debug: valgrind-debug"
+		}
+	]
+}

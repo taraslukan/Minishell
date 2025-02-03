@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/02 17:09:52 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/03 17:08:06 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
 
 void print_read(t_read *r_tools)
 {
@@ -31,18 +26,14 @@ void print_read(t_read *r_tools)
     printf("Delimiter: %s\n", r_tools->delimiter ? r_tools->delimiter : "(NULL)");
     printf("Heredoc: %s\n", r_tools->heredoc ? "true" : "false");
     printf("Success: %s\n", r_tools->success ? "true" : "false");
+    printf("Var enable: %s\n", r_tools->global_var_enable ? "true" : "false");
 }
 
 void start_process(t_coreStruct *core)
 {
-    
     std_read(&core->read);
-    
-    if (strcmp(core->read.line, "") == 0)  // Se l'utente preme Ctrl+D, interrompi il ciclo
-    {
-        printf("EOF detected. Exiting...\n");
-        exit(0);
-    }
+    if (strcmp(core->read.line, "") == 0)
+       return;
     //print_read(&core->read);
     tokenize(core);
     std_exv(core);
@@ -78,11 +69,8 @@ void std_directory_save(t_coreStruct *core)
 int main(void)
 {
     t_coreStruct core;
-
-    
-    core.env = copy_env();  // Assicurati che questa funzione sia definita
+    core.env = copy_env();
     std_directory_save(&core);
     fork_builde(&core);
-
     return (0);
 }

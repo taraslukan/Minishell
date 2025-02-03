@@ -6,6 +6,12 @@
         "libft.h": "c",
         "string.h": "c",
         "builtin.h": "c",
-        "read.h": "c"
+        "read.h": "c",
+        "*.tcc": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "string_view": "c",
+        "ranges": "c",
+        "random": "c"
     }
 }

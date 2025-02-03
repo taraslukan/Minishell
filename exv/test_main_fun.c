@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_main_fun.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/31 15:04:51 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/03 17:16:10 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ char	*find_path(t_exec_manager *tools)
 		candidate_path = NULL;
 		i++;
 	}
-	free_matrix(split_path);
-	return candidate_path;
+	return (free_matrix(split_path), candidate_path);
 }
 
 void redirect_input(t_exec_manager *tools)
@@ -82,7 +81,6 @@ void redirect_output(t_exec_manager *tools)
 				out_fd = open(tools->cmd->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
 				out_fd = open(tools->cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-
 			if (out_fd == -1) {
 				perror("Error opening output file");
 				exit(EXIT_FAILURE);
@@ -100,7 +98,11 @@ void redirect_output(t_exec_manager *tools)
 
 void exe_func(t_exec_manager *tools)
 {
-	char *path = find_path(tools);
+	char	*path;
+	if(access(tools->cmd->exe, X_OK) == 0)
+		path = tools->cmd->exe;
+	else 
+		path = find_path(tools);
 
 	if (!path)
 	{

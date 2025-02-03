@@ -6,14 +6,11 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:56:01 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/14 12:20:27 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/03 16:11:49 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
-
-// Funzione per avanzare il puntatore fino al termine del token
-// Uso const perchè questo dato non viene modificato più fuori da questa funzione
 
 static const char	*skip_token(const char *str, char c, bool *in_quotes, char *quote_char)
 {
@@ -31,7 +28,6 @@ static const char	*skip_token(const char *str, char c, bool *in_quotes, char *qu
 	return (str);
 }
 
-// Funzione per contare le parole nella stringa
 static size_t	count_words(const char *str, char c)
 {
 	size_t	count;
@@ -54,7 +50,6 @@ static size_t	count_words(const char *str, char c)
 	return (count);
 }
 
-// Funzione per allocare un token
 static char	*allocate_token(const char *start, size_t length)
 {
 	char	*token;
@@ -84,7 +79,6 @@ static char	*allocate_token(const char *start, size_t length)
 	return (token[j] = '\0', token);
 }
 
-// Funzione per creare i token
 static void	process_tokens(char const *str, char c, char **tokens)
 {
 	bool	in_quotes = false;
@@ -104,8 +98,6 @@ static void	process_tokens(char const *str, char c, char **tokens)
 	}
 	tokens[index] = NULL;
 }
-
-// Funzione principale per dividere la stringa
 char	**token_master(char const *str, char c)
 {
 	size_t	words_count;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:08:28 by lukan             #+#    #+#             */
-/*   Updated: 2025/01/31 12:13:07 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/03 15:35:59 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,21 @@ char	*here_loop(char *delimiter)
 	char	*fullstring;
 	char	*temp;
 
-	fullstring = ft_strdup(""); // Inizializza fullstring come stringa vuota
+	fullstring = ft_strdup("");
 	while (1)
 	{
 		line = readline("heredoc:(.y.) --> ");
 		if (!line)
 			break;
-		// Verifica se la riga corrente è il delimitatore
 		if (check_delimiter(line, delimiter))
 		{
 			free(line);
 			break;
 		}
-		// Concatena la riga con '\n' alla stringa completa
 		temp = fullstring;
 		fullstring = ft_strjoin(fullstring, line);
 		fullstring = ft_strjoin(fullstring, "\n");
-		free(temp); // Libera la vecchia stringa concatenata
+		free(temp);
 		free(line);
 	}
 	return (fullstring);
@@ -120,17 +118,16 @@ char	*tl_check_heredoc(char *input)
 	heredocinput = NULL;
 	while (input[i])
 	{
-		if (input[i] == '<' && input[i + 1] == '<') // Controlla il simbolo "<<"
+		if (input[i] == '<' && input[i + 1] == '<')
 		{
 			i += 2;
-			while (input[i] && input[i] <= ' ') // Salta gli spazi dopo "<<"
+			while (input[i] && input[i] <= ' ')
 				i++;
-			heredoc_pw = save_delimiter(i, input); // Salva il delimitatore
+			heredoc_pw = save_delimiter(i, input);
 			heredocinput = here_loop(heredoc_pw);
 			break;
 		}
 		i++;
 	}
-	//printf("\n%s \n", heredocinput);
-	return (heredocinput); // Restituisce la stringa NON splittata per \n
+	return (heredocinput);
 }

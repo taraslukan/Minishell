@@ -3,8 +3,8 @@ NAME = minishell
 
 # Compilatore e flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/local/opt/readline/include -I$(LIBFTDIR)/include
-LDFLAGS = -L/usr/local/opt/readline/lib -lreadline -L$(LIBFTDIR) -lft
+CFLAGS = -Wall -Wextra -Werror -g -Iinclude -I/usr/local/opt/readline/include -I$(LIBFTDIR)/include
+LDFLAGS = -L/usr/local/opt/readline/lib -lreadline -lhistory -L$(LIBFTDIR) -lft
 LIBFTDIR = ./libft
 
 # Colori
@@ -14,6 +14,7 @@ BLUE = \033[1;34m
 RED = \033[1;31m
 NC = \033[0m  # Reset
 
+# File sorgenti
 SRCS = main.c \
      $(wildcard ./new_read/*.c) \
      $(wildcard ./signal/*.c) \
@@ -24,7 +25,7 @@ SRCS = main.c \
      $(wildcard ./token/*.c)
 OBJS = $(SRCS:%.c=%.o)
 
-all: banner $(NAME)
+all: banner $(NAME) clean_objs
 
 banner:
 	@echo "${BLUE}============================${NC}"
@@ -35,7 +36,6 @@ $(NAME): $(OBJS) $(LIBFTDIR)/libft.a
 	@echo "${GREEN}[✔] Creazione eseguibile: ${NAME}${NC}"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
 	@echo "${GREEN}[✔] Minishell compilato con successo!${NC}"
-	@$(MAKE) ask_exec
 
 $(LIBFTDIR)/libft.a:
 	@echo "${YELLOW}[→] Compilazione della libreria libft...${NC}"
@@ -46,8 +46,12 @@ $(LIBFTDIR)/libft.a:
 	@echo "${YELLOW}[→] Compilazione: $<${NC}"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+clean_objs:
+	@rm -rf $(OBJS)
+	@echo "${GREEN}[✔] Pulizia completata!${NC}"
+
 clean:
-	@echo "${RED}[✖] Pulizia degli oggetti...${NC}"
+	@echo "${RED}[✖] Pulizia degli oggetti e file temporanei...${NC}"
 	@rm -rf $(OBJS)
 	@make -C $(LIBFTDIR) clean
 	@echo "${GREEN}[✔] Pulizia completata!${NC}"
@@ -60,13 +64,4 @@ fclean: clean
 
 re: fclean all
 
-ask_exec:
-	@echo "${BLUE}=================================${NC}"
-	@echo "${GREEN}Minishell pronto all'esecuzione!${NC}"
-	@echo "${BLUE}=================================${NC}"
-	@printf "${YELLOW}Vuoi avviare Minishell? (y/n): ${NC}"
-	@read choice; if [ "$$choice" = "y" ]; then ./minishell; fi
-
-exec: re
-
-.PHONY: all clean fclean re exec ask_exec
+.PHONY: all clean fclean re clean_objs
