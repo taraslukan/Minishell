@@ -6,11 +6,13 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 17:08:06 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 12:49:49 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_last_exit_status;
 
 void print_read(t_read *r_tools)
 {
@@ -72,5 +74,6 @@ int main(void)
     core.env = copy_env();
     std_directory_save(&core);
     fork_builde(&core);
+    printf("\n exit %d: \n", g_last_exit_status);
     return (0);
 }

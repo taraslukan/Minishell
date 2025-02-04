@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 17:16:10 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 12:38:09 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void redirect_output(t_exec_manager *tools)
 void exe_func(t_exec_manager *tools)
 {
 	char	*path;
+	int 	stat;
 	if(access(tools->cmd->exe, X_OK) == 0)
 		path = tools->cmd->exe;
 	else 
@@ -111,7 +112,9 @@ void exe_func(t_exec_manager *tools)
 	}
 	redirect_input(tools);
 	redirect_output(tools);
-	if (execve(path, tools->cmd->args, environ) == -1)
+	stat = execve(path, tools->cmd->args, environ);
+	fprintf(stderr,"%d\n", stat);
+	if (stat == -1)
 	{
 		perror("execve");
 		free(path);

@@ -7,4 +7,5 @@ int main(void)
 
     path = getenv("PATH");
     printf("%s\n", path);
+    return(2);
 }

@@ -6,14 +6,14 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:57:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 15:55:30 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 12:47:45 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "read.h"
 
-int g_last_exit_status = 0;
+
 
 char *expand_variables(char *line, bool global_var_enable)
 {
