@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 15:35:03 by lukan             #+#    #+#             */
-/*   Updated: 2025/02/03 16:26:52 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 14:08:57 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ bool is_option_n(const char *arg)
     if (arg[0] != '-' || arg[1] != 'n')
         return false;
 
-    i = 2; // Inizia da 2 per evitare il '-n'
-    while (arg[i] == 'n') // Verifica solo 'n' consecutivi
+    i = 2;
+    while (arg[i] == 'n')
         i++;
     return (arg[i] == '\0');
 }
@@ -58,7 +58,7 @@ void ft_echo(int argc, char **argv)
         i++;
     }
 
-    while (i < argc) // Corretto il loop, deve essere 'i < argc'
+    while (i < argc)
     {
         char *clean_arg = remove_quotes(argv[i]);
         if (!clean_arg)
@@ -69,12 +69,12 @@ void ft_echo(int argc, char **argv)
         printf("%s", clean_arg);
         free(clean_arg);
         i++;
-        if (i < argc) // Corretto il controllo
+        if (i < argc)
             printf(" ");
     }
 
     if (newline)
         printf("\n");
 
-    return; // Restituisce, senza terminare il programma
+    return;
 }

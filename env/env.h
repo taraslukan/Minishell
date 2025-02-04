@@ -6,16 +6,12 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:39:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/01/16 13:54:30 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 14:09:04 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 #define ENV_H
-
-// Standard libraries
-
-// Project-specific headers
 #include "../minishell.h"
 #include "../structMinishell.h"
 

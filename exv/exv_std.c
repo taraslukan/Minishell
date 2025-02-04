@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/04 13:11:50 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 14:05:05 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,13 @@ void std_exv(t_coreStruct *core)
         i++;
     }
 
-    // Attendere tutti i processi figli e aggiornare g_last_exit_status
     for (size_t j = 0; j < core->pipe.number; j++)
     {
         waitpid(pids[j], &status, 0);
-        if (WIFEXITED(status))  // Se il processo è terminato normalmente
+        if (WIFEXITED(status))
             g_last_exit_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status)) // Se è stato terminato da un segnale
-            g_last_exit_status = 128 + WTERMSIG(status); // Comportamento di Bash
+        else if (WIFSIGNALED(status))
+            g_last_exit_status = 128 + WTERMSIG(status);
     }
 
     close(tools.old_fd[0]);

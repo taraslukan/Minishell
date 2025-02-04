@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:55:52 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 17:27:38 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/04 14:08:31 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void ft_cd(int argc, char **argv)
     char *oldpwd;
     char *path;
 
-    // Se non viene passato alcun argomento, usa la directory HOME
     if (argc < 2) {
         path = getenv("HOME");
         if (!path) {
@@ -45,32 +44,28 @@ void ft_cd(int argc, char **argv)
     } else {
         path = argv[1];
 
-        // Gestione speciale per "cd -": ritorna alla directory precedente
         if (strcmp(path, "-") == 0) {
             path = getenv("OLDPWD");
             if (!path) {
                 fprintf(stderr, "cd: OLDPWD not set\n");
                 return;
             }
-            printf("%s\n", path); // Stampa la directory corrente prima di cambiarla
+            printf("%s\n", path);
         }
     }
 
-    // Salva la directory attuale in modo da aggiornare OLDPWD
     oldpwd = getcwd(NULL, 0);
     if (!oldpwd) {
         perror("getcwd");
         return;
     }
 
-    // Prova a cambiare directory
     if (chdir(path) == -1) {
         fprintf(stderr, "cd: %s: %s\n", path, strerror(errno));
         free(oldpwd);
         return;
     }
 
-    // Aggiorna OLDPWD con la vecchia directory
     if (setenv("OLDPWD", oldpwd, 1) == -1) {
         perror("setenv OLDPWD");
         free(oldpwd);
@@ -78,7 +73,6 @@ void ft_cd(int argc, char **argv)
     }
     free(oldpwd);
 
-    // Aggiorna PWD con la nuova directory corrente
     if (getcwd(cwd, sizeof(cwd)) == NULL) {
         perror("getcwd");
         return;
