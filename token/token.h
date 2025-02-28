@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:08:42 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 15:37:32 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/21 15:50:22 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,23 @@
 # include "../minishell.h"
 # include "../structMinishell.h"
 
+typedef struct s_token_utils
+{
+	int		index;
+	bool	pipe_in;
+	bool	pipe_out;
+	int		arg_count;
 
-char        **token_master(char const *str, char c);
-int         test(char *input);
-size_t      count_pipe(char **matrix);
-char        **pipe_splitter(char *str);
-void        print_functions(t_coreStruct *core);
-void        print_command(const t_comand *cmd);
-void        tokenize(t_coreStruct *core);
+}	t_token_utils;
+
+char		**token_master(char const *str, char c);
+int			test(char *input);
+size_t		count_pipe(char **matrix);
+char		**pipe_splitter(char *str);
+void		print_functions(t_core_struct *core);
+void		print_command(const t_comand *cmd);
+void		tokenize(t_core_struct *core);
+t_comand	comand_write(char **matrix, bool pipe_in, bool pipe_out,
+				t_core_struct *core);
 
 #endif

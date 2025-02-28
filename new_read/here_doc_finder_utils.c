@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:25:15 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 15:33:21 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/19 17:45:56 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*find_heredoc_start(char *line)
 {
-	return strstr(line, "<<");
+	return (strstr(line, "<<"));
 }
 
 char	*skip_spaces(char *start)
@@ -27,7 +27,7 @@ char	*skip_spaces(char *start)
 char	*find_heredoc_delimiter(char *start)
 {
 	char	*end;
-	
+
 	end = start;
 	while (*end && !isspace(*end))
 		end++;
@@ -37,8 +37,8 @@ char	*find_heredoc_delimiter(char *start)
 char	*extract_delimiter(char *start, char *end)
 {
 	if (!start || !end || end <= start)
-		return NULL;
-	return strndup(start, end - start);
+		return (NULL);
+	return (strndup(start, end - start));
 }
 
 char	*remove_heredoc(const char *input)
@@ -46,10 +46,10 @@ char	*remove_heredoc(const char *input)
 	char	*result;
 	char	*heredoc_pos;
 	char	*after_heredoc;
-	
+
 	result = strdup(input);
 	if (!result)
-		return NULL;
+		return (NULL);
 	heredoc_pos = strstr(result, "<<");
 	if (heredoc_pos)
 	{
@@ -62,4 +62,3 @@ char	*remove_heredoc(const char *input)
 	}
 	return (result);
 }
-

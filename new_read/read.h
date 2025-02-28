@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 18:19:00 by fluzi             #+#    #+#             */
+/*   Updated: 2025/02/26 14:52:18 by fluzi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef READ_H
 # define READ_H
 
@@ -6,7 +18,15 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-char	*build_std_prompt();
+typedef struct s_expander
+{
+	char	*result;
+	size_t	i;
+	size_t	j;
+	int		in_single_quotes;
+}	t_expander;
+
+char	*build_std_prompt(void);
 void	find_heredoc(t_read *r_tools);
 char	*remove_heredoc(const char *input);
 char	*extract_delimiter(char *start, char *end);

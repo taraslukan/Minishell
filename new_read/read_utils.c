@@ -6,13 +6,13 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:05:03 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/03 15:31:48 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/02/19 17:47:55 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "read.h"
 
-char *build_std_prompt()
+char	*build_std_prompt(void)
 {
 	char	*step;
 	char	*colored_prompt;

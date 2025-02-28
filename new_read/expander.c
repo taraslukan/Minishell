@@ -5,68 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 14:57:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/04 12:47:45 by fluzi            ###   ########.fr       */
+/*   Created: 2025/02/26 14:40:05 by fluzi             #+#    #+#             */
+/*   Updated: 2025/02/28 14:14:09 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "read.h"
 
+extern int	g_last_exit_status;
 
-
-char *expand_variables(char *line, bool global_var_enable)
+void	append_exit_status(t_expander *exp)
 {
-    if ( !line || !global_var_enable)
-        return strdup(line);
+	char	*buffer;
+	int		len;
 
-    char *result = malloc(4096);
-    if (!result)
-        return NULL;
+	buffer = ft_itoa(g_last_exit_status);
+	if (!buffer)
+		return ;
+	len = ft_strlen(buffer);
+	ft_strncpy(exp->result + exp->j, buffer, len);
+	exp->j += len;
+	free(buffer);
+}
 
-    size_t i = 0, j = 0;
-    int in_single_quotes = 0;
+void	copy_var_name(char *line, t_expander *exp, char *var_name)
+{
+	size_t	start;
+	size_t	len;
 
-    while (line[i]) {
-        if (line[i] == '\'') {
-            in_single_quotes = !in_single_quotes;
-            result[j++] = line[i++];
-            continue;
-        }
-        if (line[i] == '$' && !in_single_quotes) {
-            if (line[i + 1] == '?')
-            {
-                j += sprintf(result + j, "%d", g_last_exit_status);
-                i += 2;
-            }
-            else if (line[i + 1] == '$')
-            {
-                j += sprintf(result + j, "%d", getpid());
-                i += 2;
-            }
-            else
-            {
-                i++;
-                size_t var_start = i;
-                while (line[i] && (isalnum(line[i]) || line[i] == '_'))
-                    i++;
+	start = ++(exp->i);
+	while (line[exp->i] && (isalnum(line[exp->i]) || line[exp->i] == '_'))
+		(exp->i)++;
+	len = exp->i - start;
+	if (len >= sizeof(var_name))
+		return ;
+	ft_strncpy(var_name, &line[start], len);
+	var_name[len] = '\0';
+}
 
-                char var_name[256];
-                strncpy(var_name, &line[var_start], i - var_start);
-                var_name[i - var_start] = '\0';
+void	append_env_variable(char *line, t_expander *exp)
+{
+	char	var_name[256];
+	char	*var_value;
+	size_t	value_len;
 
-                char *var_value = getenv(var_name);
-                if (var_value)
-                    j += sprintf(result + j, "%s", var_value);
-            }
-        } else {
-            result[j++] = line[i++];
-        }
-    }
-    result[j] = '\0';
+	copy_var_name(line, exp, var_name);
+	var_value = getenv(var_name);
+	if (var_value)
+	{
+		value_len = ft_strlen(var_value);
+		ft_strncpy(exp->result + exp->j, var_value, value_len);
+		exp->j += value_len;
+	}
+}
 
-    free(line);
-    line = strdup(result);
-    free(result);
-    return line;
+void	process_char(char *line, t_expander *exp)
+{
+	if (line[exp->i] == '\'')
+		exp->in_single_quotes = !(exp->in_single_quotes);
+	else if (line[exp->i] == '$' && !(exp->in_single_quotes))
+	{
+		if (line[exp->i + 1] == '?')
+		{
+			append_exit_status(exp);
+			exp->i += 2;
+		}
+		else
+			append_env_variable(line, exp);
+	}
+	else
+		exp->result[(exp->j)++] = line[exp->i];
+	(exp->i)++;
+}
+
+char	*expand_variables(char *line, bool global_var_enable)
+{
+	t_expander	exp;
+
+	if (!line || !global_var_enable)
+		return (strdup(line));
+	exp.result = malloc(4096);
+	if (!exp.result)
+		return (NULL);
+	exp.i = 0;
+	exp.j = 0;
+	exp.in_single_quotes = 0;
+	while (line[exp.i])
+		process_char(line, &exp);
+	exp.result[exp.j] = '\0';
+	free(line);
+	return (ft_strdup(exp.result));
 }
