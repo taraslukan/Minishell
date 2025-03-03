@@ -6,15 +6,15 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:55:52 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 17:28:05 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 14:46:53 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtIn.h"
 
-void	ft_exit(void)
+void	ft_exit(t_core_struct *core)
 {
-	exit(99);
+	safe_exit(core, 0);
 }
 
 void	ft_cd(int argc, char **argv)

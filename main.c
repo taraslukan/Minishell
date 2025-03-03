@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/28 14:39:14 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 14:50:48 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 int	g_last_exit_status;
 
+bool	is_only_tabs_or_spaces(const char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ' && *str != '\t')
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
 void	start_process(t_core_struct *core)
 {
 	std_read(&core->read);
 	if (strcmp(core->read.line, "") == 0)
 		return ;
-	printf("STAMPA%s", core->read.line);
+	if (is_only_tabs_or_spaces(core->read.line))
+		return ;
 	tokenize(core);
 	std_exv(core);
 	if (core->read.heredoc)
@@ -34,28 +46,12 @@ static void	fork_builde(t_core_struct *core)
 		start_process(core);
 }
 
-void	std_directory_save(t_core_struct *core)
-{
-	core->stdin_copy = dup(STDIN_FILENO);
-	if (core->stdin_copy == -1)
-	{
-		perror("dup stdin");
-		exit(EXIT_FAILURE);
-	}
-	core->stdout_copy = dup(STDOUT_FILENO);
-	if (core->stdout_copy == -1)
-	{
-		perror("dup stdout");
-		exit(EXIT_FAILURE);
-	}
-}
-
 int	main(void)
 {
 	t_core_struct	core;
 
 	core.env = copy_env();
-	std_directory_save(&core);
 	fork_builde(&core);
+	safe_exit(&core, 0);
 	return (0);
 }

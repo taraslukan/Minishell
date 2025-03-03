@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:16:13 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 17:39:39 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 14:50:22 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ void	built_in_decision_menager(t_exec_manager *tools)
 	else if (strcmp(cmd, "unset") == 0)
 		printf("unset");
 	else if (strcmp(cmd, "exit") == 0)
-		ft_exit();
+		ft_exit(tools->cmd->core);
 	free(cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/26 12:48:01 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 16:01:38 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,13 @@ void	manage_pipe(t_exec_manager *tools)
 		if (pipe(tools->fd))
 		{
 			perror("Pipe creation failed");
-			exit(EXIT_FAILURE);
+			safe_exit(tools->cmd->core, EXIT_FAILURE);
 		}
+	}
+	else
+	{
+		tools->fd[0] = -1;
+		tools->fd[1] = -1;
 	}
 	manage_pipe_redirect_utils(tools);
 }
@@ -95,6 +100,7 @@ void	std_exv(t_core_struct *core)
 			}
 			if (pids[i] == 0)
 			{
+				close(tools.fd[0]);
 				signal(SIGINT, SIG_DFL);
 				signal(SIGTSTP, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);

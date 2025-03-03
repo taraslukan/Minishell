@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 17:34:49 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 14:49:58 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static char	**built_in_finder(void)
 {
-	char	**builtins;
+	static char	*builtins[] = {
+		"echo",
+		"cd",
+		"pwd",
+		"export",
+		"unset",
+		"env",
+		"exit",
+		NULL // Terminatore dell'array
+	};
 
-	builtins = malloc(sizeof(char *) * 8);
-	builtins[0] = "echo";
-	builtins[1] = "cd";
-	builtins[2] = "pwd";
-	builtins[3] = "export";
-	builtins[4] = "unset";
-	builtins[5] = "env";
-	builtins[6] = "exit";
-	builtins[7] = NULL;
 	return (builtins);
 }
 
@@ -43,7 +43,7 @@ void	execute_builtin(const t_comand *cmd)
 	else if (strcmp(cmd->exe, "env") == 0)
 		print_env(cmd->core->env);
 	else if (strcmp(cmd->exe, "exit") == 0)
-		ft_exit();
+		ft_exit(cmd->core);
 }
 
 bool	is_builtin(const char *cmd)

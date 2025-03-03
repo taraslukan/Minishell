@@ -6,80 +6,116 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:15:26 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/28 14:25:52 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 17:10:41 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static size_t	count_words(char const *str, char c)
+static int	handle_quotes(const char *str, int *i)
 {
-	size_t	count;
-	int		i;
+	(*i)++;
+	while (str[*i] && str[*i] != '\"')
+		(*i)++;
+	if (str[*i] == '\"')
+		(*i)++;
+	else
+		return (0);
+	return (1);
+}
 
-	count = 0;
+static int	pipe_count_words(const char *str)
+{
+	int	i;
+	int	count;
+
 	i = 0;
+	count = 1;
 	while (str[i])
 	{
-		while (str[i] == c && str[i])
-			i++;
-		if (str[i] != '\0')
+		if (str[i] == '\"')
+		{
+			if (!handle_quotes(str, &i))
+				return (0);
+		}
+		else if (str[i] == '|')
+		{
 			count++;
-		while (str[i] != c && str[i])
+			i++;
+		}
+		else
 			i++;
 	}
 	return (count);
 }
 
-static void	handle_special_symbols(char const **str, char **ptr_ret,
-size_t *index)
+static void	parse_segment(const char *s, int *i, int *j)
 {
-	if (**str == '<' && *(*str + 1) == '<')
+	*j = 0;
+	while (s[*i])
 	{
-		ptr_ret[(*index)++] = ft_strdup("<<");
-		*str += 2;
-	}
-	else
-	{
-		ptr_ret[(*index)++] = ft_strndup(*str, 1);
-		*str += 1;
+		if (s[*i] == '\"')
+		{
+			(*i)++;
+			(*j)++;
+			while (s[*i] && s[*i] != '\"')
+			{
+				(*i)++;
+				(*j)++;
+			}
+		}
+		if (s[*i] == '|')
+		{
+			(*i)++;
+			(*j)++;
+			break ;
+		}
+		(*i)++;
+		(*j)++;
 	}
 }
 
-static void	handle_regular_word(char const **str, char c, char **ptr_ret,
-size_t *index)
+static char	**pipe_split_words(const char *s, char **result, int pipe_count)
 {
-	size_t	end_wrd;
+	int	i;
+	int	j;
+	int	k;
 
-	end_wrd = 0;
-	while (**str && **str != c && **str != '<' && **str != '>')
+	i = 0;
+	j = 0;
+	k = 0;
+	while (k < pipe_count)
 	{
-		end_wrd++;
-		(*str)++;
+		parse_segment(s, &i, &j);
+		if (s[i] == '\0')
+		{
+			i++;
+			j++;
+		}
+		result[k] = strndup(s +(i - j), j - 1);
+		k++;
 	}
-	ptr_ret[(*index)++] = ft_substr(*str - end_wrd, 0, end_wrd);
+	result[k] = NULL;
+	return (result);
 }
 
-char	**ft_spl_utl(char const *str, char c)
+char	**ft_pipe_split(char const *s, char c)
 {
-	char	**ptr_ret;
-	size_t	index;
+	char	**result;
+	char	**tmp_matrix;
+	int		word_count;
+	int		l;
 
-	if (!str)
-		return (NULL);
-	ptr_ret = malloc(sizeof(char *) * (count_words(str, c) + 1));
-	if (ptr_ret == NULL)
-		return (NULL);
-	index = 0;
-	while (*str)
-	{
-		if (*str == c)
-			str++;
-		else if (*str == '<' || *str == '>')
-			handle_special_symbols(&str, ptr_ret, &index);
-		else
-			handle_regular_word(&str, c, ptr_ret, &index);
-	}
-	ptr_ret[index] = NULL;
-	return (ptr_ret);
+	(void)c;
+	if (!s)
+		return (0);
+	word_count = pipe_count_words(s);
+	result = (char **)malloc(sizeof(char *) * (word_count + 1));
+	if (!result)
+		return (0);
+	tmp_matrix = pipe_split_words(s, result, word_count);
+	l = 0;
+	while (result[l])
+		l++;
+	return (tmp_matrix);
 }

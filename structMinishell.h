@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:03:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/21 14:08:29 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 14:58:47 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,8 @@ typedef struct s_core_struct
 	t_comand	*functions;
 	t_pipeAdmin	pipe;
 	t_read		read;
-	char		*imput;
 	char		**pipe_split;
 	char		**env;
-	char		*path;
-	int			stdin_copy;
-	int			stdout_copy;
 }	t_core_struct;
 
 #endif /* STRUCTMINISHELL_H */

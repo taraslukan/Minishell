@@ -1,61 +1,2 @@
-[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0mkkskll[K
-[?2004lNumber of commands: 1
-Command 1:
-  Executable: kkskl
-  Arguments: |kkskl
-             |
-  Input file: (null)
-  Output file: (null)
-  Append mode: false
+bhocsdhiulcdwgo;w
 
-Number of commands: 1
-Command 1:
-  Executable: kkskl
-  Arguments: |kkskl
-             |
-  Input file: (null)
-  Output file: (null)
-  Append mode: false
-
-[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0m[K[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0m  \
-[?2004lNumber of commands: 1
-Command 1:
-  Executable: \
-  Arguments: |\
-             |
-  Input file: (null)
-  Output file: (null)
-  Append mode: false
-
-Number of commands: 1
-Command 1:
-  Executable: \
-  Arguments: |\
-             |
-  Input file: (null)
-  Output file: (null)
-  Append mode: false
-
-[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0m
-[?2004l[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0m
-[?2004l[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0m
-[?2004l[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0mnjkhkjjb
-[?2004lNumber of commands: 1
-Command 1:
-  Executable: njkhkjjb
-  Arguments: |njkhkjjb
-             |
-  Input file: (null)
-  Output file: (null)
-  Append mode: false
-
-Number of commands: 1
-Command 1:
-  Executable: njkhkjjb
-  Arguments: |njkhkjjb
-             |
-  Input file: (null)
-  Output file: (null)
-  Append mode: false
-
-[?2004h[1;33m✗ [1;34mMinishell: [0m[1;32m/nfs/homes/fluzi/Desktop/Minishell[0m[1;33m ➜ [0m^Z[?2004l

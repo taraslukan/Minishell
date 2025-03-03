@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/21 15:47:31 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 13:04:49 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	tokenize(t_core_struct *core)
 	core->pipe_split = matrix_split;
 	utils_matrix = build_pipeline_tokens(matrix_split, core->pipe.number);
 	core->functions = parse_pipeline(utils_matrix, core->pipe.number, core);
-	print_functions(core);
 	while (i < core->pipe.number)
 	{
 		free(utils_matrix[i]);

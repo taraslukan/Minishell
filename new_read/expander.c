@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:40:05 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/28 14:14:09 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/03 17:20:10 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	append_env_variable(char *line, t_expander *exp)
 	{
 		value_len = ft_strlen(var_value);
 		ft_strncpy(exp->result + exp->j, var_value, value_len);
-		exp->j += value_len;
+		exp->j += value_len ;
 	}
 }
 
@@ -68,7 +68,7 @@ void	process_char(char *line, t_expander *exp)
 		if (line[exp->i + 1] == '?')
 		{
 			append_exit_status(exp);
-			exp->i += 2;
+			exp->i += 1;
 		}
 		else
 			append_env_variable(line, exp);
