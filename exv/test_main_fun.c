@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 17:44:57 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 17:35:45 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ void	redirect_input(t_exec_manager *tools)
 		{
 			in_fd = open(tools->cmd->in_file, O_RDONLY);
 			if (in_fd == -1)
-			{
-				perror("Error opening input file");
-				exit(EXIT_FAILURE);
-			}
+				error_dup_input();
 		}
 		if (dup2(in_fd, STDIN_FILENO) == -1)
 		{
@@ -97,18 +94,10 @@ void	redirect_output(t_exec_manager *tools)
 				out_fd = open(tools->cmd->out_file, O_WRONLY
 						| O_CREAT | O_TRUNC, 0644);
 			if (out_fd == -1)
-			{
-				perror("Error opening output file");
-				exit(EXIT_FAILURE);
-			}
+				error_dup_output();
 		}
 		if (dup2(out_fd, STDOUT_FILENO) == -1)
-		{
-			perror("Error duplicating stdout");
-			if (out_fd >= 0)
-				close(out_fd);
-			exit(EXIT_FAILURE);
-		}
+			dup_close(out_fd);
 		if (out_fd >= 0)
 			close(out_fd);
 	}

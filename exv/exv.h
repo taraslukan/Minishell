@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:15:45 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/21 14:05:38 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 17:35:29 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ void	call_exe_func_built_in_std(t_exec_manager *tools);
 void	manage_pipe_close_utils(t_exec_manager *tools);
 void	manage_pipe_redirect_utils(t_exec_manager *tools);
 void	manage_pipe(t_exec_manager *tools);
+void	close_fd(t_exec_manager *tools);
+void	error_dup_input(void);
+void	error_dup_output(void);
+void	dup_close(int out_fd);
 
 #endif
