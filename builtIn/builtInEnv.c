@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:51:55 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 14:48:07 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 15:55:15 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	builtin_export(char ***env, const char *key)
 	char	**split;
 
 	split = ft_split(key, '=');
-	printf("%s %s\n", split[0], split[1]);
 	if (set_env_value(env, split[0], split[1]) == -1)
 		perror("export: failed to set \n");
 	free(split);
@@ -35,6 +34,10 @@ void	builtin_export(char ***env, const char *key)
 
 void	builtin_unset(char ***env, const char *key)
 {
-	if (unset_env_value(env, key) == -1)
+	char	**split;
+
+	split = ft_split(key, '=');
+	if (unset_env_value(env, split[0]) == -1)
 		perror("unset:  not found\n");
+	free(split);
 }

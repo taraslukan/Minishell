@@ -6,13 +6,13 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:21:29 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 14:35:54 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 11:41:15 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup(const char *s1)
 {
 	char	*str;
 	size_t	i;
@@ -29,6 +29,5 @@ char	*ft_strdup(char *s1)
 		i++;
 	}
 	str[i] = 0;
-	free(s1);
 	return (str);
 }

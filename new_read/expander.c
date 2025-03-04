@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:40:05 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 17:20:10 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 14:46:17 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	process_char(char *line, t_expander *exp)
 char	*expand_variables(char *line, bool global_var_enable)
 {
 	t_expander	exp;
+	char		*final_result;
 
 	if (!line || !global_var_enable)
 		return (strdup(line));
@@ -94,5 +95,7 @@ char	*expand_variables(char *line, bool global_var_enable)
 		process_char(line, &exp);
 	exp.result[exp.j] = '\0';
 	free(line);
-	return (ft_strdup(exp.result));
+	final_result = ft_strdup(exp.result);
+	free(exp.result);
+	return (final_result);
 }

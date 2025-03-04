@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 14:49:58 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 11:23:43 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	**built_in_finder(void)
 		"unset",
 		"env",
 		"exit",
-		NULL // Terminatore dell'array
+		NULL
 	};
 
 	return (builtins);

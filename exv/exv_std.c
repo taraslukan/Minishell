@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:02:30 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 16:01:38 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 15:28:38 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 void	manage_pipe_close_utils(t_exec_manager *tools)
 {
-	if (tools->index == 0)
+	if (tools->index == 0 && tools->fd[1] > -1)
 		close(tools->fd[1]);
-	else if (tools->index == tools->cmd->core->pipe.number - 1)
+	else if (tools->index == tools->cmd->core->pipe.number - 1
+		&& tools->old_fd[0] > -1)
 		close(tools->old_fd[0]);
 	else
 	{
-		close(tools->old_fd[0]);
-		close(tools->fd[1]);
+		if (tools->old_fd[0] > -1)
+			close(tools->old_fd[0]);
+		if (tools->fd[1] > -1)
+			close(tools->fd[1]);
 	}
 }
 
@@ -67,6 +70,18 @@ void	manage_pipe(t_exec_manager *tools)
 	manage_pipe_redirect_utils(tools);
 }
 
+void	close_fd(t_exec_manager *tools)
+{
+	if (tools->old_fd[0] > -1)
+		close(tools->old_fd[0]);
+	if (tools->old_fd[1] > -1)
+		close(tools->old_fd[1]);
+	if (tools->fd[0] > -1)
+		close(tools->fd[0]);
+	if (tools->fd[1] > -1)
+		close(tools->fd[1]);
+}
+
 void	std_exv(t_core_struct *core)
 {
 	t_exec_manager	tools;
@@ -100,7 +115,8 @@ void	std_exv(t_core_struct *core)
 			}
 			if (pids[i] == 0)
 			{
-				close(tools.fd[0]);
+				if (tools.fd[0] > -1)
+					close(tools.fd[0]);
 				signal(SIGINT, SIG_DFL);
 				signal(SIGTSTP, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);
@@ -120,8 +136,5 @@ void	std_exv(t_core_struct *core)
 			g_last_exit_status = 128 + WTERMSIG(status);
 		j++;
 	}
-	close(tools.old_fd[0]);
-	close(tools.old_fd[1]);
-	close(tools.fd[0]);
-	close(tools.fd[1]);
+	close_fd(&tools);
 }

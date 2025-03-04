@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:20:53 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 14:39:26 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 15:18:29 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,13 @@ void	set_struct(t_read *r_tools)
 
 void	std_read(t_read *r_tools)
 {
+	char	*prompt;
+
 	if (!r_tools)
 		return ;
 	set_struct(r_tools);
-	r_tools->line = readline(build_std_prompt());
+	prompt = build_std_prompt();
+	r_tools->line = readline(prompt);
 	if (!r_tools->line)
 	{
 		r_tools->success = false;
@@ -117,5 +120,6 @@ void	std_read(t_read *r_tools)
 	find_heredoc(r_tools);
 	if (r_tools->heredoc)
 		std_here_doc(r_tools);
+	free(prompt);
 	r_tools->line = expand_variables(r_tools->line, r_tools->global_var_enable);
 }

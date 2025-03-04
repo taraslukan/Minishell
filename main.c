@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 14:50:48 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 14:25:16 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	start_process(t_core_struct *core)
 	std_exv(core);
 	if (core->read.heredoc)
 		unlink(core->read.in_file);
+	free_struct(&core->read);
 }
 
 static void	fork_builde(t_core_struct *core)

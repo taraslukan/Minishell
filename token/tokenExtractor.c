@@ -6,32 +6,31 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 13:04:49 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/04 15:47:46 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-t_comand	*parse_pipeline(char ***pipeline_tokens, size_t num_pipes,
+void	parse_pipeline(char ***pipeline_tokens, size_t num_pipes,
 	t_core_struct *core)
 {
-	t_comand	*commands;
 	size_t		i;
 	bool		pipe_in;
 	bool		pipe_out;
 
 	i = 0;
-	commands = malloc(sizeof(t_comand) * num_pipes);
-	if (!commands)
-		return (NULL);
+	core->functions = malloc(sizeof(t_comand) * num_pipes);
+	if (!core->functions)
+		return ;
 	while (i < num_pipes)
 	{
 		pipe_in = (i > 0);
 		pipe_out = (i < num_pipes - 1);
-		commands[i] = comand_write(pipeline_tokens[i], pipe_in, pipe_out, core);
+		core->functions[i] = comand_write(pipeline_tokens[i], pipe_in, pipe_out,
+				core);
 		i++;
 	}
-	return (commands);
 }
 
 char	***build_pipeline_tokens(char **matrix_split, size_t num_pipes)
@@ -61,7 +60,8 @@ void	tokenize(t_core_struct *core)
 	core->pipe.number = count_pipe(matrix_split);
 	core->pipe_split = matrix_split;
 	utils_matrix = build_pipeline_tokens(matrix_split, core->pipe.number);
-	core->functions = parse_pipeline(utils_matrix, core->pipe.number, core);
+	parse_pipeline(utils_matrix, core->pipe.number, core);
+	print_functions(core);
 	while (i < core->pipe.number)
 	{
 		free(utils_matrix[i]);
