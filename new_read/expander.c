@@ -6,13 +6,21 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:40:05 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/04 14:46:17 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/05 14:42:50 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "read.h"
 
 extern int	g_last_exit_status;
+
+typedef struct s_expander {
+	char	*result;
+	size_t	i;
+	size_t	j;
+	bool	in_single_quotes;
+	bool	in_double_quotes; // Aggiungi questa variabile
+}	t_expander;
 
 void	append_exit_status(t_expander *exp)
 {
@@ -55,15 +63,17 @@ void	append_env_variable(char *line, t_expander *exp)
 	{
 		value_len = ft_strlen(var_value);
 		ft_strncpy(exp->result + exp->j, var_value, value_len);
-		exp->j += value_len ;
+		exp->j += value_len;
 	}
 }
 
 void	process_char(char *line, t_expander *exp)
 {
-	if (line[exp->i] == '\'')
-		exp->in_single_quotes = !(exp->in_single_quotes);
-	else if (line[exp->i] == '$' && !(exp->in_single_quotes))
+	if (line[exp->i] == '\'' && !exp->in_double_quotes)
+		exp->in_single_quotes = !exp->in_single_quotes;
+	else if (line[exp->i] == '"' && !exp->in_single_quotes)
+		exp->in_double_quotes = !exp->in_double_quotes;
+	else if (line[exp->i] == '$' && !exp->in_single_quotes)
 	{
 		if (line[exp->i + 1] == '?')
 		{
@@ -85,17 +95,20 @@ char	*expand_variables(char *line, bool global_var_enable)
 
 	if (!line || !global_var_enable)
 		return (strdup(line));
-	exp.result = malloc(4096);
+	exp.result = malloc(strlen(line) * 2 + 4096);
 	if (!exp.result)
 		return (NULL);
 	exp.i = 0;
 	exp.j = 0;
 	exp.in_single_quotes = 0;
+	exp.in_double_quotes = 0; // Inizializza la variabile
 	while (line[exp.i])
 		process_char(line, &exp);
 	exp.result[exp.j] = '\0';
-	free(line);
 	final_result = ft_strdup(exp.result);
 	free(exp.result);
+	if (line)
+		free(line);
+	printf("FINAL RESULT: %s\n", final_result);
 	return (final_result);
 }
