@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:19:00 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/26 14:52:18 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/05 14:54:37 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_expander
 	char	*result;
 	size_t	i;
 	size_t	j;
-	int		in_single_quotes;
+	bool	in_single_quotes;
+	bool	in_double_quotes; // Aggiungi questa variabile
 }	t_expander;
 
 char	*build_std_prompt(void);

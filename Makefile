@@ -3,7 +3,7 @@ NAME = minishell
 
 # Compilatore e flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror  -Iinclude -I/usr/local/opt/readline/include -I$(LIBFTDIR)/include
+CFLAGS = -Wall -Wextra -Werror -g -Iinclude -I/usr/local/opt/readline/include -I$(LIBFTDIR)/include
 LDFLAGS = -L/usr/local/opt/readline/lib -lreadline -lhistory -L$(LIBFTDIR) -lft
 LIBFTDIR = ./libft
 

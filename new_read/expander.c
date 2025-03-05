@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:40:05 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/05 14:42:50 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/05 14:54:12 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "read.h"
 
 extern int	g_last_exit_status;
-
-typedef struct s_expander {
-	char	*result;
-	size_t	i;
-	size_t	j;
-	bool	in_single_quotes;
-	bool	in_double_quotes; // Aggiungi questa variabile
-}	t_expander;
 
 void	append_exit_status(t_expander *exp)
 {
@@ -101,7 +93,7 @@ char	*expand_variables(char *line, bool global_var_enable)
 	exp.i = 0;
 	exp.j = 0;
 	exp.in_single_quotes = 0;
-	exp.in_double_quotes = 0; // Inizializza la variabile
+	exp.in_double_quotes = 0;
 	while (line[exp.i])
 		process_char(line, &exp);
 	exp.result[exp.j] = '\0';
@@ -109,6 +101,5 @@ char	*expand_variables(char *line, bool global_var_enable)
 	free(exp.result);
 	if (line)
 		free(line);
-	printf("FINAL RESULT: %s\n", final_result);
 	return (final_result);
 }

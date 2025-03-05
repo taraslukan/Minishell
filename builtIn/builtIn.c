@@ -3,24 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtIn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:55:52 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/03 14:46:53 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/05 15:27:56 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtIn.h"
 
-void	ft_exit(t_core_struct *core)
+char	*get_target_path(int argc, char **argv)
 {
-	safe_exit(core, 0);
-}
-
-void	ft_cd(int argc, char **argv)
-{
-	char	cwd[1024];
-	char	*oldpwd;
 	char	*path;
 
 	if (argc < 2)
@@ -29,7 +22,7 @@ void	ft_cd(int argc, char **argv)
 		if (!path)
 		{
 			fprintf(stderr, "cd: HOME not set\n");
-			return ;
+			return (NULL);
 		}
 	}
 	else
@@ -41,11 +34,48 @@ void	ft_cd(int argc, char **argv)
 			if (!path)
 			{
 				fprintf(stderr, "cd: OLDPWD not set\n");
-				return ;
+				return (NULL);
 			}
-			printf("%s\n", path);
 		}
 	}
+	return (path);
+}
+
+int	update_pwd(void)
+{
+	char	cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("getcwd");
+		return (0);
+	}
+	if (setenv("PWD", cwd, 1) == -1)
+	{
+		perror("setenv PWD");
+		return (0);
+	}
+	return (1);
+}
+
+int	update_oldpwd(char *oldpwd)
+{
+	if (setenv("OLDPWD", oldpwd, 1) == -1)
+	{
+		perror("setenv OLDPWD");
+		return (0);
+	}
+	return (1);
+}
+
+void	ft_cd(int argc, char **argv)
+{
+	char	*oldpwd;
+	char	*path;
+
+	path = get_target_path(argc, argv);
+	if (!path)
+		return ;
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 	{
@@ -58,23 +88,14 @@ void	ft_cd(int argc, char **argv)
 		free(oldpwd);
 		return ;
 	}
-	if (setenv("OLDPWD", oldpwd, 1) == -1)
+	if (!update_oldpwd(oldpwd))
 	{
-		perror("setenv OLDPWD");
 		free(oldpwd);
 		return ;
 	}
 	free(oldpwd);
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd");
+	if (!update_pwd())
 		return ;
-	}
-	if (setenv("PWD", cwd, 1) == -1)
-	{
-		perror("setenv PWD");
-		return ;
-	}
 }
 
 void	ft_pwd(void)

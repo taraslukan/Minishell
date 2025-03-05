@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenExtractor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:52:06 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/04 15:47:46 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/05 14:53:36 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	tokenize(t_core_struct *core)
 	core->pipe_split = matrix_split;
 	utils_matrix = build_pipeline_tokens(matrix_split, core->pipe.number);
 	parse_pipeline(utils_matrix, core->pipe.number, core);
-	print_functions(core);
 	while (i < core->pipe.number)
 	{
 		free(utils_matrix[i]);

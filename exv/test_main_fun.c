@@ -3,32 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   test_main_fun.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/04 17:35:45 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/05 15:02:57 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exv.h"
 
-char	*find_path(t_exec_manager *tools)
+char	*find_executable_path(t_exec_manager *tools, char **split_path)
 {
-	char	**split_path;
 	char	*candidate_path;
 	char	*joined_path;
-	char	*path_env;
 	int		i;
 
-	candidate_path = NULL;
-	joined_path = NULL;
-	path_env = getenv("PATH");
 	i = 0;
-	if (!tools->cmd || !tools->cmd->args || !tools->cmd->args[0] || !path_env)
-		return (NULL);
-	split_path = ft_split(path_env, ':');
-	if (!split_path)
-		return (NULL);
 	while (split_path[i])
 	{
 		joined_path = ft_strjoin(split_path[i], "/");
@@ -39,12 +29,30 @@ char	*find_path(t_exec_manager *tools)
 		if (!candidate_path)
 			break ;
 		if (access(candidate_path, X_OK) == 0)
-			break ;
+			return (candidate_path);
 		free(candidate_path);
 		candidate_path = NULL;
 		i++;
 	}
-	return (free_matrix(split_path), candidate_path);
+	return (NULL);
+}
+
+char	*find_path(t_exec_manager *tools)
+{
+	char	**split_path;
+	char	*candidate_path;
+	char	*path_env;
+
+	candidate_path = NULL;
+	path_env = getenv("PATH");
+	if (!tools->cmd || !tools->cmd->args || !tools->cmd->args[0] || !path_env)
+		return (NULL);
+	split_path = ft_split(path_env, ':');
+	if (!split_path)
+		return (NULL);
+	candidate_path = find_executable_path(tools, split_path);
+	free_matrix(split_path);
+	return (candidate_path);
 }
 
 void	redirect_input(t_exec_manager *tools)
