@@ -3,103 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 14:40:05 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/05 14:54:12 by fluzi            ###   ########.fr       */
+/*   Created: 2025/03/10 16:58:34 by fluzi             #+#    #+#             */
+/*   Updated: 2025/03/10 18:00:58 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "read.h"
 
-extern int	g_last_exit_status;
-
-void	append_exit_status(t_expander *exp)
+static void	check_expander_if(t_exp_var exp)
 {
-	char	*buffer;
-	int		len;
-
-	buffer = ft_itoa(g_last_exit_status);
-	if (!buffer)
-		return ;
-	len = ft_strlen(buffer);
-	ft_strncpy(exp->result + exp->j, buffer, len);
-	exp->j += len;
-	free(buffer);
-}
-
-void	copy_var_name(char *line, t_expander *exp, char *var_name)
-{
-	size_t	start;
-	size_t	len;
-
-	start = ++(exp->i);
-	while (line[exp->i] && (isalnum(line[exp->i]) || line[exp->i] == '_'))
-		(exp->i)++;
-	len = exp->i - start;
-	if (len >= sizeof(var_name))
-		return ;
-	ft_strncpy(var_name, &line[start], len);
-	var_name[len] = '\0';
-}
-
-void	append_env_variable(char *line, t_expander *exp)
-{
-	char	var_name[256];
-	char	*var_value;
-	size_t	value_len;
-
-	copy_var_name(line, exp, var_name);
-	var_value = getenv(var_name);
-	if (var_value)
+	exp.exit_str = ft_itoa(g_last_exit_status);
+	exp.var_len = ft_strlen(exp.exit_str);
+	if (exp.j + exp.var_len < 8192)
 	{
-		value_len = ft_strlen(var_value);
-		ft_strncpy(exp->result + exp->j, var_value, value_len);
-		exp->j += value_len;
+		ft_strncpy(exp.result + exp.j, exp.exit_str, exp.var_len);
+		exp.j += exp.var_len;
+	}
+	free(exp.exit_str);
+	exp.i += 2;
+}
+
+static void	dc(t_exp_var *exp, char *line)
+{
+	exp->i++;
+	exp->var_start = exp->i;
+	while (line[exp->i] && (isalnum(line[exp->i])
+			|| line[exp->i] == '_'))
+		exp->i++;
+}
+
+static void	check_expander_else(t_exp_var *exp, char *line)
+{
+	exp->var_name = ft_strndup(&line[exp->var_start], exp->i - exp->var_start);
+	exp->var_value = getenv(exp->var_name);
+	free(exp->var_name);
+	if (exp->var_value)
+	{
+		exp->var_len = ft_strlen(exp->var_value);
+		if (exp->j + exp->var_len < 8192)
+		{
+			ft_strncpy(exp->result + exp->j, exp->var_value, exp->var_len);
+			exp->j += exp->var_len;
+		}
 	}
 }
 
-void	process_char(char *line, t_expander *exp)
+static void	check_exp_while(t_exp_var *exp, char *line, bool *allow_expansion)
 {
-	if (line[exp->i] == '\'' && !exp->in_double_quotes)
-		exp->in_single_quotes = !exp->in_single_quotes;
-	else if (line[exp->i] == '"' && !exp->in_single_quotes)
-		exp->in_double_quotes = !exp->in_double_quotes;
-	else if (line[exp->i] == '$' && !exp->in_single_quotes)
+	while (line[exp->i])
 	{
-		if (line[exp->i + 1] == '?')
+		if (line[exp->i] == '$' && allow_expansion)
 		{
-			append_exit_status(exp);
-			exp->i += 1;
+			if (line[exp->i + 1] == '?')
+			{
+				check_expander_if(*exp);
+				printf("%d\n", g_last_exit_status);
+				return ;
+			}
+			else
+			{
+				dc(exp, line);
+				if (exp->var_start == exp->i)
+				{
+					exp->result[exp->j++] = '$';
+					continue ;
+				}
+				check_expander_else(exp, line);
+			}
 		}
 		else
-			append_env_variable(line, exp);
+			exp->result[exp->j++] = line[exp->i++];
 	}
-	else
-		exp->result[(exp->j)++] = line[exp->i];
-	(exp->i)++;
 }
 
-char	*expand_variables(char *line, bool global_var_enable)
+char	*expand_variables(char *line, bool global_var_enable, bool allow_expansion)
 {
-	t_expander	exp;
-	char		*final_result;
+	t_exp_var	exp;
 
-	if (!line || !global_var_enable)
-		return (strdup(line));
-	exp.result = malloc(strlen(line) * 2 + 4096);
-	if (!exp.result)
-		return (NULL);
 	exp.i = 0;
 	exp.j = 0;
-	exp.in_single_quotes = 0;
-	exp.in_double_quotes = 0;
-	while (line[exp.i])
-		process_char(line, &exp);
+	exp.result = ft_calloc(8192, sizeof(char *));
+	if (!line || !global_var_enable || !exp.result)
+	{
+		if (line)
+			return (ft_strdup(line));
+		else
+			return (NULL);
+	}
+	check_exp_while(&exp, line, &allow_expansion);
 	exp.result[exp.j] = '\0';
-	final_result = ft_strdup(exp.result);
-	free(exp.result);
-	if (line)
-		free(line);
-	return (final_result);
+	free(line);
+	return (exp.result);
 }

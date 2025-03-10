@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/04 14:25:16 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/10 16:36:12 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	is_only_tabs_or_spaces(const char *str)
 
 void	start_process(t_core_struct *core)
 {
-	std_read(&core->read);
+	std_read(core->env, &core->read);
 	if (strcmp(core->read.line, "") == 0)
 		return ;
 	if (is_only_tabs_or_spaces(core->read.line))
