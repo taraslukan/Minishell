@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 15:30:21 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 17:55:04 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/20 15:38:51 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "../minishell.h"
 # include "../structMinishell.h"
 
-void	handle_sigint(int sig);
-void	handle_sigtstp(int sig);
+void	handle_sigint(int signal);
+void	init_signals(void);
+void	handle_ctrl_d(char *line);
 
 #endif

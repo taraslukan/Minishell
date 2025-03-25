@@ -1,45 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exv_builtIn_finder.c                               :+:      :+:    :+:   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/20 16:59:41 by fluzi            ###   ########.fr       */
+/*   Created: 2025/03/20 17:06:23 by fluzi             #+#    #+#             */
+/*   Updated: 2025/03/20 17:11:42 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exv.h"
+#include "read.h"
 
-static char	**built_in_finder(void)
+void	apic(t_exp_var *exp, char *line)
 {
-	static char	*builtins[] = {
-		"echo",
-		"cd",
-		"pwd",
-		"export",
-		"unset",
-		"env",
-		"exit",
-		NULL
-	};
-
-	return (builtins);
+	if (line[exp->i] == '\'' && exp->status_quote == true)
+		exp->status_quote = false;
+	else if (line[exp->i] == '\'' && exp->status_quote == false)
+		exp->status_quote = true;
 }
 
-bool	is_builtin(const char *cmd)
+void	free_read(t_exp_var *exp)
 {
-	int		i;
-	char	**builtins;
-
-	i = 0;
-	builtins = built_in_finder();
-	while (builtins[i])
-	{
-		if (strcmp(cmd, builtins[i]) == 0)
-			return (true);
-		i++;
-	}
-	return (false);
+	if(exp->var_name)
+		free(exp->var_name);
+	if(exp->var_value)
+		free(exp->var_value);
+	if(exp->exit_str)
+		free(exp->exit_str);
 }

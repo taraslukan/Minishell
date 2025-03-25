@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:20:53 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/10 18:01:13 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/25 15:25:39 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	std_here_doc(char **env, t_read *r_tools)
 		heredoc_line = readline("heredoc> ");
 		if (strcmp(heredoc_line, r_tools->delimiter) == 0)
 			break ;
-		// heredoc_line = expand_variables(r_tools->line,
-		// 		r_tools->global_var_enable, r_tools->global_var_enable);
+		heredoc_line = expand_variables(r_tools->line,
+				r_tools->global_var_enable, r_tools->global_var_enable);
 		write_file(r_tools, heredoc_line);
 		free(heredoc_line);
 	}
@@ -112,9 +112,12 @@ void	std_read(char **env, t_read *r_tools)
 	set_struct(r_tools);
 	prompt = build_std_prompt();
 	r_tools->line = readline(prompt);
+	
 	if (!r_tools->line)
 	{
 		r_tools->success = false;
+		write(1, "Exit :)", 7);
+		exit(0);
 		return ;
 	}
 	add_history(r_tools->line);

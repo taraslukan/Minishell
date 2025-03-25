@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 17:22:11 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/04 17:25:35 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/25 14:34:20 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	validate_core_structure(t_core_struct *core)
 {
 	if (!core || core->pipe.number <= 0 || !core->functions)
 	{
-		fprintf(stderr, "Invalid core structure\n");
+		write(2, "Invalid core structure\n",23);
 		return (0);
 	}
 	return (1);
@@ -42,6 +42,8 @@ size_t index)
 		exe_func(tools);
 		exit(EXIT_FAILURE);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	wait_for_children(pid_t *pids, size_t num_children)
@@ -61,6 +63,7 @@ void	wait_for_children(pid_t *pids, size_t num_children)
 	}
 }
 
+
 void	std_exv(t_core_struct *core)
 {
 	t_exec_manager	tools;
@@ -68,7 +71,7 @@ void	std_exv(t_core_struct *core)
 	size_t			i;
 
 	i = 0;
-	pids = (pid_t *) malloc(sizeof(pid_t) * core->pipe.number);
+	pids = (pid_t *) malloc(sizeof(pid_t) * core->pipe.number );
 	if (!validate_core_structure(core))
 		exit(EXIT_FAILURE);
 	manager_tools(&tools);

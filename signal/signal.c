@@ -6,22 +6,32 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 15:29:20 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 17:54:53 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:14:00 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signal.h"  // Aggiungi questa riga
+#include "signal.h" 
 
-void	handle_sigint(int sig)
+void	handle_sigint(int signal)
 {
-	(void)sig;
-	exit(0);
+	(void)signal;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	handle_sigtstp(int sig)
+void	init_signals(void)
 {
-	(void)sig;
-	write(STDOUT_FILENO,
-		"\nRicevuto SIGTSTP (Ctrl+Z). Questo comando è disabilitato.\n", 56);
-	write(STDOUT_FILENO, "Minishell> ", 11);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	handle_ctrl_d(char *line)
+{
+	if (!line)
+	{
+		write(1, "exit\n", 5);
+		exit(0);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:39:04 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/19 18:24:17 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/20 17:04:48 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	*create_env_entry(const char *key, const char *value)
 	char	*entry;
 	char	*temp;
 
-	printf("Crea");
 	temp = ft_strjoin(key, "=");
 	if (!temp)
 		return (NULL);

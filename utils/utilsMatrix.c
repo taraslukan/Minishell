@@ -1,45 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exv_builtIn_finder.c                               :+:      :+:    :+:   */
+/*   utilsMatrix.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 16:23:24 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/20 16:59:41 by fluzi            ###   ########.fr       */
+/*   Created: 2025/03/25 17:31:37 by fluzi             #+#    #+#             */
+/*   Updated: 2025/03/25 17:31:39 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exv.h"
-
-static char	**built_in_finder(void)
+int matrix_len(char **matrix)
 {
-	static char	*builtins[] = {
-		"echo",
-		"cd",
-		"pwd",
-		"export",
-		"unset",
-		"env",
-		"exit",
-		NULL
-	};
-
-	return (builtins);
-}
-
-bool	is_builtin(const char *cmd)
-{
-	int		i;
-	char	**builtins;
-
-	i = 0;
-	builtins = built_in_finder();
-	while (builtins[i])
-	{
-		if (strcmp(cmd, builtins[i]) == 0)
-			return (true);
-		i++;
-	}
-	return (false);
+    int i = 0;
+    while (matrix[i])
+        i++;
+    return i;
 }

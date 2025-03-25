@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:19:00 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/10 18:00:44 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/20 17:10:03 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_exp_var
 	char		*var_name;
 	char		*var_value;
 	char		*exit_str;
+	bool		status_quote;
 }	t_exp_var;
 
 char	*build_std_prompt(void);
@@ -44,5 +45,7 @@ void	std_here_doc(char **env, t_read *r_tools);
 bool	is_history(char *line);
 char	*expand_variables(char *line, bool global_var_enable,
 			bool allow_expansion);
+void	apic(t_exp_var *exp, char *line);
+void	free_read(t_exp_var *exp);
 
 #endif

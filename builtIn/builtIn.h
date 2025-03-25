@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:54:08 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/04 15:34:10 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/25 17:11:34 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	builtin_export(char ***env, const char *key);
 void	builtin_unset(char ***env, const char *key);
 void	ft_exit(t_core_struct *core);
 void	ft_pwd(void);
-void	ft_cd(int argc, char **argv);
+void	ft_cd(int argc, char **argv, char ***env);
 void	ft_echo(int argc, char **argv);
+void	print_env_export(char **env);
 
 #endif

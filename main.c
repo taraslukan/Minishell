@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/10 16:36:12 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:12:46 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,11 @@ void	start_process(t_core_struct *core)
 	std_exv(core);
 	if (core->read.heredoc)
 		unlink(core->read.in_file);
-	free_struct(&core->read);
 }
 
 static void	fork_builde(t_core_struct *core)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	init_signals();
 	while (1)
 		start_process(core);
 }
@@ -51,6 +49,7 @@ int	main(void)
 {
 	t_core_struct	core;
 
+	signal(SIGINT, handle_sigint);
 	core.env = copy_env();
 	fork_builde(&core);
 	safe_exit(&core, 0);

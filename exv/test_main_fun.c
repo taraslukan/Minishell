@@ -88,6 +88,7 @@ void	redirect_output(t_exec_manager *tools)
 	int	out_fd;
 
 	out_fd = -1;
+	printf("\n%s\n", tools->cmd->append ? "Append" : "non append");
 	if (tools->cmd->out_file)
 	{
 		if (strcmp(tools->cmd->out_file, PIPE_STD_OUT) == 0
