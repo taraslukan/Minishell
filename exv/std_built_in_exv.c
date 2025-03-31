@@ -6,11 +6,19 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:16:13 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/25 17:23:06 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:05:41 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exv.h"
+
+void	handle_child_status(int status)
+{
+	if (WIFEXITED(status))
+		g_last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_last_exit_status = 129 + WTERMSIG(status);
+}
 
 void	call_exe_func_built_in_std(t_exec_manager *tools)
 {
@@ -37,6 +45,7 @@ void	call_exe_func_built_in_std(t_exec_manager *tools)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	handle_child_status(status);
 	manage_pipe_close_utils(tools);
 }
 

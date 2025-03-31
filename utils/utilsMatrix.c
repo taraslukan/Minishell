@@ -6,14 +6,16 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:31:37 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/25 17:31:39 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:41:29 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int matrix_len(char **matrix)
+int	matrix_len(char **matrix)
 {
-    int i = 0;
-    while (matrix[i])
-        i++;
-    return i;
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+		i++;
+	return (i);
 }

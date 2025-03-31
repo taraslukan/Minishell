@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 15:35:03 by lukan             #+#    #+#             */
-/*   Updated: 2025/03/25 15:32:45 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:38:07 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ void	ft_echo(int argc, char **argv)
 	}
 	if (newline)
 		printf("\n");
-	return ;
+	exit(EXIT_SUCCESS);
 }

@@ -6,20 +6,20 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:56:01 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/10 16:02:23 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:51:06 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 
-static const char	*skip_token(const char *str, char c, bool *in_quotes,
+const char	*skip_token(const char *str, char c, bool *in_quotes,
 char *quote_char)
 {
 	while (*str && (*str != c || *in_quotes))
 	{
-		if ((*str == '>' || *str == '<') && !*in_quotes)
-			break ;
 		if (*str == '>' && *(str + 1) == '>' && !*in_quotes)
+			break ;
+		if ((*str == '>' || *str == '<') && !*in_quotes)
 			break ;
 		if ((*str == 39 || *str == 34) && !*in_quotes)
 		{
@@ -63,7 +63,7 @@ bool	in_quotes)
 	return (count);
 }
 
-static char	*allocate_token(const char *start, size_t length, size_t j,
+char	*allocate_token(const char *start, size_t length, size_t j,
 size_t i)
 {
 	char	*token;
@@ -89,43 +89,6 @@ size_t i)
 		i++;
 	}
 	return (token[j] = '\0', token);
-}
-
-static void	process_tokens(char const *str, char c, char **tokens)
-{
-	bool	in_quotes;
-	char	quote_char;
-	size_t	index;
-	char	*start;
-
-	in_quotes = false;
-	quote_char = '\0';
-	index = 0;
-	while (*str)
-	{
-		if (*str != c)
-		{
-			start = (char *) str;
-			if (*str == '>' && *(str + 1) == '>')
-			{
-				tokens[index++] = allocate_token(start, 2, 0, 0);
-				str += 2;
-			}
-			else if (*str == '>' || *str == '<')
-			{
-				tokens[index++] = allocate_token(start, 1, 0, 0);
-				str++;
-			}
-			else
-			{
-				str = skip_token(str, c, &in_quotes, &quote_char);
-				tokens[index++] = allocate_token(start, str - start, 0, 0);
-			}
-		}
-		else
-			str++;
-	}
-	tokens[index] = NULL;
 }
 
 char	**token_master(char const *str, char c)

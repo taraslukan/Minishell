@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:58:34 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/24 14:17:30 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:40:05 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	check_exp_while(t_exp_var *exp, char *line, bool *allow_expansion)
 			if (line[exp->i + 1] == '?')
 			{
 				check_expander_if(*exp);
-				printf("%d\n", g_last_exit_status);
+				copy_g_status(exp);
 				return ;
 			}
 			else
@@ -79,7 +79,8 @@ static void	check_exp_while(t_exp_var *exp, char *line, bool *allow_expansion)
 	}
 }
 
-char	*expand_variables(char *line, bool global_var_enable, bool allow_expansion)
+char	*expand_variables(char *line, bool global_var_enable,
+	bool allow_expansion)
 {
 	t_exp_var	exp;
 
@@ -97,6 +98,5 @@ char	*expand_variables(char *line, bool global_var_enable, bool allow_expansion)
 	check_exp_while(&exp, line, &allow_expansion);
 	exp.result[exp.j] = '\0';
 	free(line);
-	//free_read(&exp);
 	return (exp.result);
 }

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:20:53 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/25 15:25:39 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:53:37 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	std_read(char **env, t_read *r_tools)
 	set_struct(r_tools);
 	prompt = build_std_prompt();
 	r_tools->line = readline(prompt);
-	
 	if (!r_tools->line)
 	{
 		r_tools->success = false;

@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:43:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/25 16:12:46 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:55:25 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 int	g_last_exit_status;
 
-bool	is_only_tabs_or_spaces(const char *str)
+static bool	is_only_whitespace(const char *str)
 {
 	while (*str)
 	{
-		if (*str != ' ' && *str != '\t')
+		if (!(*str == ' ' || *str == '\t'))
 			return (false);
 		str++;
 	}
 	return (true);
 }
 
-void	start_process(t_core_struct *core)
+static void	process_input(t_core_struct *core)
 {
 	std_read(core->env, &core->read);
-	if (strcmp(core->read.line, "") == 0)
-		return ;
-	if (is_only_tabs_or_spaces(core->read.line))
+	if (strcmp(core->read.line, "") == 0 || is_only_whitespace(core->read.line))
 		return ;
 	tokenize(core);
 	std_exv(core);
@@ -38,11 +36,11 @@ void	start_process(t_core_struct *core)
 		unlink(core->read.in_file);
 }
 
-static void	fork_builde(t_core_struct *core)
+static void	main_loop(t_core_struct *core)
 {
 	init_signals();
-	while (1)
-		start_process(core);
+	while (true)
+		process_input(core);
 }
 
 int	main(void)
@@ -51,7 +49,7 @@ int	main(void)
 
 	signal(SIGINT, handle_sigint);
 	core.env = copy_env();
-	fork_builde(&core);
-	safe_exit(&core, 0);
-	return (0);
+	main_loop(&core);
+	safe_exit(&core, EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

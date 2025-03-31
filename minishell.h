@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:22:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/10 15:05:49 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 12:38:20 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdio.h>    
 # include <unistd.h>   
 # include <limits.h>
-# include <linux/limits.h>
 # include <string.h>
 # include <stdlib.h>   
 # include <stdbool.h> 
@@ -30,7 +29,6 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <signal.h> 
-# include "new_read/read.h"
 # include "structMinishell.h"
 # include "libft/libft.h"
 # include "utils/utils.h"
@@ -39,5 +37,6 @@
 # include "exv/exv.h"
 # include "token/token.h"
 # include "builtIn/builtIn.h"
+# include "new_read/read.h"
 
 #endif

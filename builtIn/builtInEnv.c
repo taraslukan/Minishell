@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 20:51:55 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/25 17:32:47 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:38:29 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ void	print_env_export(char **env)
 void	builtin_export(char ***env, const char *key)
 {
 	char	**split;
-	
-	if(ft_strlen(key) < 2 && is_only_tabs_or_spaces(key))
+
+	if (ft_strlen(key) < 2 && is_only_tabs_or_spaces(key))
 		print_env_export((char **) env);
-	else 
+	else
 	{
 		split = ft_split(key, '=');
-		if(matrix_len(split) < 2)
+		if (matrix_len(split) < 2)
 		{
 			free(split);
-			return;
+			return ;
 		}
 		if (set_env_value(env, split[0], split[1]) == -1)
 			perror("export: failed to set \n");
@@ -72,8 +72,8 @@ void	builtin_unset(char ***env, const char *key)
 {
 	char	**split;
 
-	if(!is_only_tabs_or_spaces(key))
-		return;
+	if (!is_only_tabs_or_spaces(key))
+		return ;
 	split = ft_split(key, '=');
 	if (unset_env_value(env, split[0]) == -1)
 		perror("unset:  not found\n");

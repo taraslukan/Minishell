@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:55:52 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/25 17:20:14 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:53:01 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	update_pwd(char ***env)
 
 int	update_oldpwd(char ***env, char *oldpwd)
 {
-	if (set_env_value(env, "OLDPWD", oldpwd)== -1)
+	if (set_env_value(env, "OLDPWD", oldpwd) == -1)
 	{
 		perror("setenv OLDPWD");
 		return (0);
@@ -78,10 +78,7 @@ void	ft_cd(int argc, char **argv, char ***env)
 	if (!path)
 		return ;
 	if (!oldpwd)
-	{
-		perror("getcwd");
-		return ;
-	}
+		return (NULL, perror("getcwd"));
 	if (chdir(path) == -1)
 	{
 		fprintf(stderr, "cd: %s: \n", path);

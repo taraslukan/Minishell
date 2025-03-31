@@ -6,7 +6,7 @@
 /*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:54:23 by fluzi             #+#    #+#             */
-/*   Updated: 2025/02/28 15:54:40 by fluzi            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:40:13 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ t_token_utils *t)
 		ret->out_file = PIPE_STD_OUT;
 	else
 		ret->out_file = NULL;
+	ret->append = false;
 	while (matrix[t->index])
 	{
-		ret->append = false;
 		if (strcmp(matrix[t->index], "<") == 0 && matrix[t->index + 1])
 			ret->in_file = matrix[++t->index];
-		else if (strcmp(matrix[t->index], ">") == 0 && matrix[t->index + 1])
-			ret->out_file = matrix[++t->index];
 		else if (strcmp(matrix[t->index], ">>") == 0 && matrix[t->index + 1])
 		{
 			ret->out_file = matrix[++t->index];
 			ret->append = true;
 		}
+		else if (strcmp(matrix[t->index], ">") == 0 && matrix[t->index + 1])
+			ret->out_file = matrix[++t->index];
 		else
 			t->index++;
 	}

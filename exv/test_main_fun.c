@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_core_struct_fun.c                                    :+:      :+:    :+:   */
+/*   test_main_fun.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fluzi <fluzi@student.42roma.it>            +#+  +:+       +#+        */
+/*   By: fluzi <fluzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 16:01:41 by fluzi             #+#    #+#             */
-/*   Updated: 2025/03/05 15:02:57 by fluzi            ###   ########.fr       */
+/*   Created: 2025/03/27 13:39:02 by fluzi             #+#    #+#             */
+/*   Updated: 2025/03/27 13:39:07 by fluzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	redirect_output(t_exec_manager *tools)
 	int	out_fd;
 
 	out_fd = -1;
-	printf("\n%s\n", tools->cmd->append ? "Append" : "non append");
 	if (tools->cmd->out_file)
 	{
 		if (strcmp(tools->cmd->out_file, PIPE_STD_OUT) == 0
